@@ -17,13 +17,14 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Create Android project
-        run: |
-          mkdir app
-          cd app
-          gradle init --type basic --dsl groovy --project-name ShortsGenerator
+      - name: Grant execute permission
+        run: chmod +x ./gradlew || true
 
       - name: Build APK
-        run: |
-          cd app
-          ./gradlew build
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/*.apk
