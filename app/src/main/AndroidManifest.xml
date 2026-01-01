@@ -2,19 +2,21 @@
     package="com.example.shortsgenerator">
 
     <application
-    android:allowBackup="true"
-    android:label="ShortsGenerator"
-    android:theme="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        android:allowBackup="true"
+        android:label="ShortsGenerator"
+        android:theme="@android:style/Theme.DeviceDefault">
 
-    <activity
-        android:name=".MainActivity"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
 
-</application>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
+
+    </application>
 
 </manifest>
