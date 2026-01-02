@@ -2,7 +2,6 @@ package com.example.shortsgenerator;
 
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +18,6 @@ public class MainActivity extends AppCompatActivity {
                 "Это третье предложение."
         );
 
-        setContentView(textView);
+        setContentView(textView); // ✅ ТЕПЕРЬ КОРРЕКТНО
     }
 }
