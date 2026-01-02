@@ -5,9 +5,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.shortsgenerator.logic.TextProcessor;
-import com.example.shortsgenerator.logic.VideoPlan;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -16,25 +13,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = new TextView(this);
         textView.setTextSize(16f);
+        textView.setText(
+                "Это первое предложение.\n" +
+                "Это второе предложение.\n" +
+                "Это третье предложение."
+        );
 
-        String text =
-                "Это первое предложение. " +
-                "Это второе предложение. " +
-                "Это третье предложение.";
-
-        VideoPlan plan = TextProcessor.generateFromText(text);
-
-        StringBuilder debug = new StringBuilder();
-        debug.append("Сцены:\n");
-
-        for (int i = 0; i < plan.scenes.size(); i++) {
-            debug.append(i + 1)
-                    .append(". ")
-                    .append(plan.scenes.get(i).text)
-                    .append("\n");
-        }
-
-        textView.setText(debug.toString());
         setContentView(textView);
     }
 }
