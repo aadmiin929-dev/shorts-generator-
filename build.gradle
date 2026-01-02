@@ -4,7 +4,6 @@ buildscript {
     }
 }
 
-tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+allprojects {
+    // ПУСТО или вообще убрать allprojects
 }
-    
