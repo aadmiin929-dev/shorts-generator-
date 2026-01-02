@@ -15,12 +15,15 @@ protected void onCreate(Bundle savedInstanceState) {
     VideoPlan plan = TextProcessor.generateFromText(text);
 
     StringBuilder debug = new StringBuilder();
-    for (Scene scene : plan.scenes) {
-        debug.append(scene.text)
-             .append(" (")
-             .append(scene.durationSec)
-             .append("s)\n");
-    }
+
+for (Scene scene : plan.scenes) {
+    debug.append(scene.text)
+         .append("\nMood: ")
+         .append(scene.mood)
+         .append(", ")
+         .append(scene.durationSec)
+         .append("s\n\n");
+}
 
     TextView tv = new TextView(this);
     tv.setText(debug.toString());
