@@ -1,4 +1,5 @@
-package com.example.shortsgenerator.logic;
+package 
+com.example.shortsgenerator.logic;
 
 import java.util.List;
 
