@@ -9,18 +9,10 @@ public class TextProcessor {
         String[] sentences = inputText.split("\\.");
         List<Scene> scenes = new ArrayList<>();
 
-        for (String sentence : sentences) {
-            sentence = sentence.trim();
-            if (sentence.isEmpty()) continue;
-
-            Mood mood;
-            if (sentence.contains("!")) {
-                mood = Mood.ENERGETIC;
-            } else {
-                mood = Mood.CALM;
-            }
-
-            scenes.add(new Scene(sentence, mood));
+        for (String s : sentences) {
+            s = s.trim();
+            if (s.isEmpty()) continue;
+            scenes.add(new Scene(s, Mood.NEUTRAL));
         }
 
         return new VideoPlan(scenes);
