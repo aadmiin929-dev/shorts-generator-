@@ -1,10 +1,10 @@
 package com.example.shortsgenerator;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,6 @@ public class MainActivity extends AppCompatActivity {
                 "Это третье предложение."
         );
 
-        setContentView(textView); // ✅ ТЕПЕРЬ КОРРЕКТНО
+        setContentView(textView);
     }
 }
