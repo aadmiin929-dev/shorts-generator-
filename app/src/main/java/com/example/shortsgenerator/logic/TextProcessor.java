@@ -12,9 +12,7 @@ public class TextProcessor {
 
         for (String sentence : sentences) {
             sentence = sentence.trim();
-            if (sentence.isEmpty()) {
-                continue;
-            }
+            if (sentence.isEmpty()) continue;
 
             scenes.add(new Scene(sentence, Mood.NEUTRAL));
         }
