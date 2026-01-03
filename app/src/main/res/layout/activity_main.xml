@@ -27,31 +27,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-   <Button
-    android:id="@+id/copyButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="КОПИРОВАТЬ"
-    android:layout_marginTop="12dp" />
+    <Button
+        android:id="@+id/copyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="КОПИРОВАТЬ"
+        android:layout_marginTop="12dp" />
 
-<Spinner
-    android:id="@+id/speedSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"/>
-
-<Button
-    android:id="@+id/srtButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="SRT"
-    android:layout_marginTop="12dp" />
-    
-    <TextView
-        android:id="@+id/resultText"
-        android:text=""
-        android:layout_marginTop="24dp"
+    <Spinner
+        android:id="@+id/speedSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/srtButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SRT"
+        android:layout_marginTop="12dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/resultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+    </ScrollView>
 
 </LinearLayout>
