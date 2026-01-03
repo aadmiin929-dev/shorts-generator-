@@ -9,5 +9,8 @@ buildscript {
 }
 
 allprojects {
-    // ПУСТО или вообще убрать allprojects
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
