@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Button generateButton = findViewById(R.id.generateButton);
         TextView resultText = findViewById(R.id.resultText);
         Button copyButton = findViewById(R.id.copyButton);
+        Button srtButton = findViewById(R.id.srtButton);
         
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
