@@ -31,5 +31,21 @@ public class MainActivity extends AppCompatActivity {
                 resultText.setText("Сценарий:\n" + text);
             }
         });
+       copyButton.setOnClickListener(v -> {
+    String result = resultText.getText().toString();
+
+    if (result.isEmpty()) {
+        Toast.makeText(this, "Нечего копировать", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    ClipboardManager clipboard =
+            (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
+    ClipData clip = ClipData.newPlainText("Shorts Script", result);
+    clipboard.setPrimaryClip(clip);
+
+    Toast.makeText(this, "Сценарий скопирован", Toast.LENGTH_SHORT).show();
+}); 
     }
 }
