@@ -94,3 +94,8 @@ public class MainActivity extends AppCompatActivity {
 }); 
     
 }
+private String formatTime(int seconds) {
+    int min = seconds / 60;
+    int sec = seconds % 60;
+    return String.format("00:%02d:%02d,000", min, sec);
+}
