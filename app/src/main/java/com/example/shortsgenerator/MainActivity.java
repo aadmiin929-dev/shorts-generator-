@@ -6,7 +6,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     @Override
