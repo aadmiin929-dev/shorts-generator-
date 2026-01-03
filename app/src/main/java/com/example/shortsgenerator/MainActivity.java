@@ -88,23 +88,22 @@ public class MainActivity extends AppCompatActivity {
             int startSec = 0;
 
             for (int i = 0; i < words.length; i += 3) {
-                int endSec = startSec + duration;
+    int endSec = startSec + duration;
 
-                StringBuilder line = new StringBuilder();
-                for (int j = i; j < i + 3 && j < words.length; j++) {
-                    line.append(words[j]).append(" ");
-                }
+    StringBuilder line = new StringBuilder();
+    for (int j = i; j < i + 3 && j < words.length; j++) {
+        line.append(styleWord(words[j])).append(" ");
+    }
 
-                srt.append(index++).append("\n");
-                srt.append(formatTime(startSec))
-                        .append(" --> ")
-                        .append(formatTime(endSec))
-                        .append("\n");
-                srt.append(line.toString().trim()).append("\n\n");
+    srt.append(index++).append("\n");
+    srt.append(formatTime(startSec))
+            .append(" --> ")
+            .append(formatTime(endSec))
+            .append("\n");
+    srt.append(line.toString().trim()).append("\n\n");
 
-                startSec = endSec;
-            }
-
+    startSec = endSec;
+}
             try {
                 File file = new File(getExternalFilesDir(null), "shorts.srt");
                 FileOutputStream fos = new FileOutputStream(file);
@@ -128,4 +127,16 @@ public class MainActivity extends AppCompatActivity {
         int sec = seconds % 60;
         return String.format("00:%02d:%02d,000", min, sec);
     }
-}        
+} 
+private boolean isImportantWord(String word) {
+    String w = word.toLowerCase();
+    return w.length() >= 6 ||
+            w.contains("не") ||
+            w.contains("никогда") ||
+            w.contains("всегда") ||
+            w.contains("очень");
+}
+
+private String styleWord(String word) {
+    return isImportantWord(word) ? word.toUpperCase() : word;
+}
