@@ -68,29 +68,33 @@ public class MainActivity extends AppCompatActivity {
             }
 
             String speed = speedSpinner.getSelectedItem().toString();
-            int duration;
 
-            switch (speed) {
-                case "Медленно":
-                    duration = 3;
-                    break;
-                case "Быстро":
-                    duration = 1;
-                    break;
-                default:
-                    duration = 2;
-            }
+int duration;
+int wordsPerLine;
 
+switch (speed) {
+    case "Быстро": // TikTok
+        duration = 1;
+        wordsPerLine = 2;
+        break;
+    case "Медленно": // Reels
+        duration = 3;
+        wordsPerLine = 3;
+        break;
+    default: // Shorts
+        duration = 2;
+        wordsPerLine = 3;
+}
             String[] words = text.split("\\s+");
             StringBuilder srt = new StringBuilder();
 
             int index = 1;
             int startSec = 0;
 
-            for (int i = 0; i < words.length; i += 3) {
+            for (int i = 0; i < words.length; i += wordsPerLine) {
     ;
     StringBuilder line = new StringBuilder();
-    for (int j = i; j < i + 3 && j < words.length; j++) {
+    for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
         line.append(styleWord(words[j])).append(" ");
     }
                 
@@ -111,7 +115,20 @@ int endSec = startSec + Math.max(1, duration + extra)
     startSec = endSec;
 }
             try {
-                File file = new File(getExternalFilesDir(null), "shorts.srt");
+               String fileName;
+
+switch (speed) {
+    case "Быстро":
+        fileName = "tiktok.srt";
+        break;
+    case "Медленно":
+        fileName = "reels.srt";
+        break;
+    default:
+        fileName = "shorts.srt";
+}
+
+File file = new File(getExternalFilesDir(null), fileName); 
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(srt.toString().getBytes());
                 fos.close();
