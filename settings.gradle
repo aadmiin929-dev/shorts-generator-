@@ -11,9 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://repo1.maven.org/maven2" }
     }
 }
-
 rootProject.name = "shorts-generator-"
 include(":app")
