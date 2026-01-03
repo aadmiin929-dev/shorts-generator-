@@ -3,18 +3,17 @@ package com.example.shortsgenerator;
 import android.os.Bundle;
 import android.widget.*;
 import android.content.*;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-private File lastSrtFile;
-File file = new File(getExternalFilesDir(null), fileName);
-lastSrtFile = file;
-
 public class MainActivity extends AppCompatActivity {
+
+    // Храним последний созданный SRT
+    private File lastSrtFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +40,13 @@ public class MainActivity extends AppCompatActivity {
         );
         speedSpinner.setAdapter(adapter);
 
+        // Генерация текста
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
             resultText.setText(text.isEmpty() ? "Введите текст" : text);
         });
 
+        // Копирование
         copyButton.setOnClickListener(v -> {
             String text = resultText.getText().toString();
             if (text.isEmpty()) {
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show();
         });
 
+        // Генерация SRT
         srtButton.setOnClickListener(v -> {
             String text = resultText.getText().toString().trim();
 
@@ -136,56 +138,16 @@ public class MainActivity extends AppCompatActivity {
                 fos.write(srt.toString().getBytes());
                 fos.close();
 
+                // сохраняем для кнопки "Поделиться"
+                lastSrtFile = file;
+
+                resultText.setText(srt.toString());
+
                 Toast.makeText(
                         this,
                         "SRT готов:\n" + file.getAbsolutePath(),
                         Toast.LENGTH_LONG
                 ).show();
 
-                resultText.setText(srt.toString());
-                
-            } catch (IOException e) {
-                Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
             }
-        });
-    }
-
-    private String formatTime(int seconds) {
-        int min = seconds / 60;
-        int sec = seconds % 60;
-        return String.format("00:%02d:%02d,000", min, sec);
-    }
-
-    private boolean isImportantWord(String word) {
-        String w = word.toLowerCase();
-        return w.length() >= 6 ||
-                w.contains("не") ||
-                w.contains("никогда") ||
-                w.contains("всегда") ||
-                w.contains("очень");
-    }
-
-    private String styleWord(String word) {
-        return isImportantWord(word) ? word.toUpperCase() : word;
-    }
-}shareButton.setOnClickListener(v -> {
-    if (lastSrtFile == null || !lastSrtFile.exists()) {
-        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-        return;
-    }
-
-    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-    shareIntent.setType("application/x-subrip");
-
-    shareIntent.putExtra(
-            Intent.EXTRA_STREAM,
-            FileProvider.getUriForFile(
-                    this,
-                    getPackageName() + ".provider",
-                    lastSrtFile
-            )
-    );
-
-    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
-});
+                    
