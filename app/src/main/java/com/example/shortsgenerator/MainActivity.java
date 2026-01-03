@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         EditText inputText = findViewById(R.id.inputText);
         Button generateButton = findViewById(R.id.generateButton);
         TextView resultText = findViewById(R.id.resultText);
-
+        Button copyButton = findViewById(R.id.copyButton);
+        
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
 
