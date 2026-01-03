@@ -52,4 +52,45 @@ public class MainActivity extends AppCompatActivity {
     Toast.makeText(this, "Сценарий скопирован", Toast.LENGTH_SHORT).show();
 }); 
     }
+   srtButton.setOnClickListener(v -> {
+    String text = resultText.getText().toString();
+
+    if (text.isEmpty()) {
+        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    String[] lines = text.split("\\n+");
+    StringBuilder srt = new StringBuilder();
+
+    int startSec = 0;
+
+    for (int i = 0; i < lines.length; i++) {
+        int endSec = startSec + 2;
+
+        srt.append(i + 1).append("\n");
+        srt.append(formatTime(startSec))
+           .append(" --> ")
+           .append(formatTime(endSec))
+           .append("\n");
+        srt.append(lines[i].trim()).append("\n\n");
+
+        startSec = endSec;
+    }
+
+    try {
+        File file = new File(getExternalFilesDir(null), "shorts.srt");
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(srt.toString().getBytes());
+        fos.close();
+
+        Toast.makeText(this,
+                "SRT сохранён: " + file.getAbsolutePath(),
+                Toast.LENGTH_LONG).show();
+
+    } catch (IOException e) {
+        Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
+    }
+}); 
+    
 }
