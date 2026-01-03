@@ -88,13 +88,19 @@ public class MainActivity extends AppCompatActivity {
             int startSec = 0;
 
             for (int i = 0; i < words.length; i += 3) {
-    int endSec = startSec + duration;
-
+    ;
     StringBuilder line = new StringBuilder();
     for (int j = i; j < i + 3 && j < words.length; j++) {
         line.append(styleWord(words[j])).append(" ");
     }
+                
+    int extra = 0;
 
+// если строка длинная или с CAPS — даём больше времени
+if (line.length() > 12) extra = 1;
+if (line.toString().equals(line.toString().toUpperCase())) extra = 1;
+
+int endSec = startSec + Math.max(1, duration + extra)
     srt.append(index++).append("\n");
     srt.append(formatTime(startSec))
             .append(" --> ")
