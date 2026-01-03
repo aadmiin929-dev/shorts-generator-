@@ -3,13 +3,12 @@ package com.example.shortsgenerator;
 import android.os.Bundle;
 import android.widget.*;
 import android.content.*;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,37 +22,34 @@ public class MainActivity extends AppCompatActivity {
         Button generateButton = findViewById(R.id.generateButton);
         Button copyButton = findViewById(R.id.copyButton);
         Button srtButton = findViewById(R.id.srtButton);
-       Spinner speedSpinner = findViewById(R.id.speedSpinner);
+        Spinner speedSpinner = findViewById(R.id.speedSpinner);
 
-String[] speeds = {"Медленно", "Нормально", "Быстро"};
-ArrayAdapter<String> adapter = new ArrayAdapter<>(
-        this,
-        android.R.layout.simple_spinner_item,
-        speeds
-);
-adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-speedSpinner.setAdapter(adapter); 
-
-        // Скорости
+        // Spinner скоростей
         String[] speeds = {"Медленно", "Нормально", "Быстро"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                android.R.layout.simple_spinner_dropdown_item,
+                android.R.layout.simple_spinner_item,
                 speeds
+        );
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
         );
         speedSpinner.setAdapter(adapter);
 
+        // Генерация текста
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
             resultText.setText(text.isEmpty() ? "Введите текст" : text);
         });
 
+        // Копирование
         copyButton.setOnClickListener(v -> {
             String text = resultText.getText().toString();
             if (text.isEmpty()) {
                 Toast.makeText(this, "Нечего копировать", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             ClipboardManager clipboard =
                     (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setPrimaryClip(
@@ -62,65 +58,74 @@ speedSpinner.setAdapter(adapter);
             Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show();
         });
 
-             srtButton.setOnClickListener(v -> {
-    String text = resultText.getText().toString().trim();
+        // SRT
+        srtButton.setOnClickListener(v -> {
+            String text = resultText.getText().toString().trim();
 
-    if (text.isEmpty()) {
-        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
-        return;
+            if (text.isEmpty()) {
+                Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String speed = speedSpinner.getSelectedItem().toString();
+            int duration;
+
+            switch (speed) {
+                case "Медленно":
+                    duration = 3;
+                    break;
+                case "Быстро":
+                    duration = 1;
+                    break;
+                default:
+                    duration = 2;
+            }
+
+            String[] words = text.split("\\s+");
+            StringBuilder srt = new StringBuilder();
+
+            int index = 1;
+            int startSec = 0;
+
+            for (int i = 0; i < words.length; i += 3) {
+                int endSec = startSec + duration;
+
+                StringBuilder line = new StringBuilder();
+                for (int j = i; j < i + 3 && j < words.length; j++) {
+                    line.append(words[j]).append(" ");
+                }
+
+                srt.append(index++).append("\n");
+                srt.append(formatTime(startSec))
+                        .append(" --> ")
+                        .append(formatTime(endSec))
+                        .append("\n");
+                srt.append(line.toString().trim()).append("\n\n");
+
+                startSec = endSec;
+            }
+
+            try {
+                File file = new File(getExternalFilesDir(null), "shorts.srt");
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(srt.toString().getBytes());
+                fos.close();
+
+                Toast.makeText(
+                        this,
+                        "SRT готов:\n" + file.getAbsolutePath(),
+                        Toast.LENGTH_LONG
+                ).show();
+
+            } catch (IOException e) {
+                Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    String speed = speedSpinner.getSelectedItem().toString();
-    int duration;
-
-    switch (speed) {
-        case "Медленно":
-            duration = 3;
-            break;
-        case "Быстро":
-            duration = 1;
-            break;
-        default:
-            duration = 2;
+    private String formatTime(int seconds) {
+        int min = seconds / 60;
+        int sec = seconds % 60;
+        return String.format("00:%02d:%02d,000", min, sec);
     }
-
-    String[] words = text.split("\\s+");
-    StringBuilder srt = new StringBuilder();
-
-    int index = 1;
-    int startSec = 0;
-
-    for (int i = 0; i < words.length; i += 3) {
-        int endSec = startSec + duration;
-
-        StringBuilder line = new StringBuilder();
-        for (int j = i; j < i + 3 && j < words.length; j++) {
-            line.append(words[j]).append(" ");
-        }
-
-        srt.append(index++).append("\n");
-        srt.append(formatTime(startSec))
-                .append(" --> ")
-                .append(formatTime(endSec))
-                .append("\n");
-        srt.append(line.toString().trim()).append("\n\n");
-
-        startSec = endSec;
-    }
-
-    try {
-        File file = new File(getExternalFilesDir(null), "shorts.srt");
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(srt.toString().getBytes());
-        fos.close();
-
-        Toast.makeText(
-                this,
-                "SRT готов:\n" + file.getAbsolutePath(),
-                Toast.LENGTH_LONG
-        ).show();
-
-    } catch (IOException e) {
-        Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
-    }
-});   
+}        
