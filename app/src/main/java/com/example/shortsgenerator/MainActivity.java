@@ -1,21 +1,14 @@
 package com.example.shortsgenerator;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-
+import android.widget.*;
+import android.content.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,68 +18,69 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         EditText inputText = findViewById(R.id.inputText);
-        Button generateButton = findViewById(R.id.generateButton);
         TextView resultText = findViewById(R.id.resultText);
+        Button generateButton = findViewById(R.id.generateButton);
         Button copyButton = findViewById(R.id.copyButton);
         Button srtButton = findViewById(R.id.srtButton);
+        Spinner speedSpinner = findViewById(R.id.speedSpinner);
 
-        // Генерация
+        // Скорости
+        String[] speeds = {"Медленно", "Нормально", "Быстро"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                speeds
+        );
+        speedSpinner.setAdapter(adapter);
+
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
-            if (text.isEmpty()) {
-                resultText.setText("Введите текст");
-            } else {
-                resultText.setText(text);
-            }
+            resultText.setText(text.isEmpty() ? "Введите текст" : text);
         });
 
-        // Копирование
         copyButton.setOnClickListener(v -> {
-            String result = resultText.getText().toString();
-            if (result.isEmpty()) {
+            String text = resultText.getText().toString();
+            if (text.isEmpty()) {
                 Toast.makeText(this, "Нечего копировать", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             ClipboardManager clipboard =
                     (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setPrimaryClip(
-                    ClipData.newPlainText("Shorts Script", result)
+                    ClipData.newPlainText("Shorts Script", text)
             );
-
             Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show();
         });
 
-        // УМНЫЙ SRT
         srtButton.setOnClickListener(v -> {
             String text = resultText.getText().toString().trim();
-
             if (text.isEmpty()) {
                 Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            int speedMultiplier = getSpeed(speedSpinner.getSelectedItemPosition());
             List<String> captions = splitSmart(text);
             StringBuilder srt = new StringBuilder();
 
-            int currentTime = 0;
+            int time = 0;
 
             for (int i = 0; i < captions.size(); i++) {
                 String line = captions.get(i);
+                int base = line.length() < 40 ? 2 :
+                           line.length() < 80 ? 3 : 4;
 
-                int duration = line.length() < 40 ? 2 :
-                               line.length() < 80 ? 3 : 4;
-
-                int endTime = currentTime + duration;
+                int duration = Math.max(1, base * speedMultiplier);
+                int end = time + duration;
 
                 srt.append(i + 1).append("\n");
-                srt.append(formatTime(currentTime))
-                        .append(" --> ")
-                        .append(formatTime(endTime))
-                        .append("\n");
+                srt.append(formatTime(time))
+                   .append(" --> ")
+                   .append(formatTime(end))
+                   .append("\n");
                 srt.append(line).append("\n\n");
 
-                currentTime = endTime;
+                time = end;
             }
 
             try {
@@ -107,35 +101,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Умное разбиение по смыслу
+    private int getSpeed(int pos) {
+        if (pos == 0) return 2; // медленно
+        if (pos == 2) return 1; // быстро
+        return 1;              // нормально
+    }
+
     private List<String> splitSmart(String text) {
-        List<String> result = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        String[] parts = text.split("(?<=[.!?])\\s+");
 
-        String[] sentences = text.split("(?<=[.!?])\\s+");
-
-        StringBuilder buffer = new StringBuilder();
-
-        for (String s : sentences) {
-            if (buffer.length() + s.length() < 80) {
-                buffer.append(s).append(" ");
+        StringBuilder buf = new StringBuilder();
+        for (String p : parts) {
+            if (buf.length() + p.length() < 80) {
+                buf.append(p).append(" ");
             } else {
-                result.add(buffer.toString().trim());
-                buffer.setLength(0);
-                buffer.append(s).append(" ");
+                list.add(buf.toString().trim());
+                buf.setLength(0);
+                buf.append(p).append(" ");
             }
         }
-
-        if (buffer.length() > 0) {
-            result.add(buffer.toString().trim());
-        }
-
-        return result;
+        if (buf.length() > 0) list.add(buf.toString().trim());
+        return list;
     }
 
-    // Формат времени SRT
-    private String formatTime(int seconds) {
-        int min = seconds / 60;
-        int sec = seconds % 60;
-        return String.format("00:%02d:%02d,000", min, sec);
+    private String formatTime(int sec) {
+        int m = sec / 60;
+        int s = sec % 60;
+        return String.format("00:%02d:%02d,000", m, s);
     }
 }
+            
