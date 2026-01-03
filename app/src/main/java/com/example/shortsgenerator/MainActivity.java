@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG
                 ).show();
 
+                resultText.setText(srt.toString());
+                
             } catch (IOException e) {
                 Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
             }
