@@ -1,18 +1,20 @@
 package com.example.shortsgenerator;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,77 +27,63 @@ public class MainActivity extends AppCompatActivity {
         TextView resultText = findViewById(R.id.resultText);
         Button copyButton = findViewById(R.id.copyButton);
         Button srtButton = findViewById(R.id.srtButton);
-        
+
+        // Генерация текста
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
 
             if (text.isEmpty()) {
                 resultText.setText("Введите текст");
             } else {
-                resultText.setText("Сценарий:\n" + text);
+                resultText.setText(text);
             }
         });
-       copyButton.setOnClickListener(v -> {
-    String result = resultText.getText().toString();
 
-    if (result.isEmpty()) {
-        Toast.makeText(this, "Нечего копировать", Toast.LENGTH_SHORT).show();
-        return;
-    }
+        // Копирование
+        copyButton.setOnClickListener(v -> {
+            String result = resultText.getText().toString();
 
-    ClipboardManager clipboard =
-            (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            if (result.isEmpty()) {
+                Toast.makeText(this, "Нечего копировать", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-    ClipData clip = ClipData.newPlainText("Shorts Script", result);
-    clipboard.setPrimaryClip(clip);
+            ClipboardManager clipboard =
+                    (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
-    Toast.makeText(this, "Сценарий скопирован", Toast.LENGTH_SHORT).show();
-}); 
-    }
-   srtButton.setOnClickListener(v -> {
-    String text = resultText.getText().toString();
+            ClipData clip = ClipData.newPlainText("Shorts Script", result);
+            clipboard.setPrimaryClip(clip);
 
-    if (text.isEmpty()) {
-        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
-        return;
-    }
+            Toast.makeText(this, "Сценарий скопирован", Toast.LENGTH_SHORT).show();
+        });
 
-    String[] lines = text.split("\\n+");
-    StringBuilder srt = new StringBuilder();
+        // SRT
+        srtButton.setOnClickListener(v -> {
+            String text = resultText.getText().toString();
 
-    int startSec = 0;
+            if (text.isEmpty()) {
+                Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-    for (int i = 0; i < lines.length; i++) {
-        int endSec = startSec + 2;
+            String[] lines = text.split("\\n+");
+            StringBuilder srt = new StringBuilder();
 
-        srt.append(i + 1).append("\n");
-        srt.append(formatTime(startSec))
-           .append(" --> ")
-           .append(formatTime(endSec))
-           .append("\n");
-        srt.append(lines[i].trim()).append("\n\n");
+            int startSec = 0;
 
-        startSec = endSec;
-    }
+            for (int i = 0; i < lines.length; i++) {
+                int endSec = startSec + 2;
 
-    try {
-        File file = new File(getExternalFilesDir(null), "shorts.srt");
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(srt.toString().getBytes());
-        fos.close();
+                srt.append(i + 1).append("\n");
+                srt.append(formatTime(startSec))
+                        .append(" --> ")
+                        .append(formatTime(endSec))
+                        .append("\n");
+                srt.append(lines[i].trim()).append("\n\n");
 
-        Toast.makeText(this,
-                "SRT сохранён: " + file.getAbsolutePath(),
-                Toast.LENGTH_LONG).show();
+                startSec = endSec;
+            }
 
-    } catch (IOException e) {
-        Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
-    }
-}); 
-    
-}
-private String formatTime(int seconds) {
-    int min = seconds / 60;
-    int sec = seconds % 60;
-    return String.format("00:%02d:%02d,000", min, sec);
-}
+            try {
+                File file = new File(getExternalFilesDir(null), "shorts.srt");
+                FileOutputStream fos =
