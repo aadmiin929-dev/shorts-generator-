@@ -10,6 +10,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+private File lastSrtFile;
+File file = new File(getExternalFilesDir(null), fileName);
+lastSrtFile = file;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         Button generateButton = findViewById(R.id.generateButton);
         Button copyButton = findViewById(R.id.copyButton);
         Button srtButton = findViewById(R.id.srtButton);
+        Button shareButton = findViewById(R.id.shareButton);
         Spinner speedSpinner = findViewById(R.id.speedSpinner);
 
         // Spinner скоростей
@@ -163,4 +168,24 @@ public class MainActivity extends AppCompatActivity {
     private String styleWord(String word) {
         return isImportantWord(word) ? word.toUpperCase() : word;
     }
-}
+}shareButton.setOnClickListener(v -> {
+    if (lastSrtFile == null || !lastSrtFile.exists()) {
+        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    shareIntent.setType("application/x-subrip");
+
+    shareIntent.putExtra(
+            Intent.EXTRA_STREAM,
+            FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    lastSrtFile
+            )
+    );
+
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
+});
