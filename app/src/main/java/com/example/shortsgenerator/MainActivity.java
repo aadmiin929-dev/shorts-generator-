@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.widget.*;
 import android.content.*;
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,7 +23,16 @@ public class MainActivity extends AppCompatActivity {
         Button generateButton = findViewById(R.id.generateButton);
         Button copyButton = findViewById(R.id.copyButton);
         Button srtButton = findViewById(R.id.srtButton);
-        Spinner speedSpinner = findViewById(R.id.speedSpinner);
+       Spinner speedSpinner = findViewById(R.id.speedSpinner);
+
+String[] speeds = {"Медленно", "Нормально", "Быстро"};
+ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        this,
+        android.R.layout.simple_spinner_item,
+        speeds
+);
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+speedSpinner.setAdapter(adapter); 
 
         // Скорости
         String[] speeds = {"Медленно", "Нормально", "Быстро"};
@@ -52,83 +62,65 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show();
         });
 
-        srtButton.setOnClickListener(v -> {
-            String text = resultText.getText().toString().trim();
-            if (text.isEmpty()) {
-                Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
-                return;
-            }
+             srtButton.setOnClickListener(v -> {
+    String text = resultText.getText().toString().trim();
 
-            int speedMultiplier = getSpeed(speedSpinner.getSelectedItemPosition());
-            List<String> captions = splitSmart(text);
-            StringBuilder srt = new StringBuilder();
-
-            int time = 0;
-
-            for (int i = 0; i < captions.size(); i++) {
-                String line = captions.get(i);
-                int base = line.length() < 40 ? 2 :
-                           line.length() < 80 ? 3 : 4;
-
-                int duration = Math.max(1, base * speedMultiplier);
-                int end = time + duration;
-
-                srt.append(i + 1).append("\n");
-                srt.append(formatTime(time))
-                   .append(" --> ")
-                   .append(formatTime(end))
-                   .append("\n");
-                srt.append(line).append("\n\n");
-
-                time = end;
-            }
-
-            try {
-                File file = new File(getExternalFilesDir(null), "shorts.srt");
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(srt.toString().getBytes());
-                fos.close();
-
-                Toast.makeText(
-                        this,
-                        "SRT сохранён:\n" + file.getAbsolutePath(),
-                        Toast.LENGTH_LONG
-                ).show();
-
-            } catch (IOException e) {
-                Toast.makeText(this, "Ошибка сохранения", Toast.LENGTH_SHORT).show();
-            }
-        });
+    if (text.isEmpty()) {
+        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+        return;
     }
 
-    private int getSpeed(int pos) {
-        if (pos == 0) return 2; // медленно
-        if (pos == 2) return 1; // быстро
-        return 1;              // нормально
+    String speed = speedSpinner.getSelectedItem().toString();
+    int duration;
+
+    switch (speed) {
+        case "Медленно":
+            duration = 3;
+            break;
+        case "Быстро":
+            duration = 1;
+            break;
+        default:
+            duration = 2;
     }
 
-    private List<String> splitSmart(String text) {
-        List<String> list = new ArrayList<>();
-        String[] parts = text.split("(?<=[.!?])\\s+");
+    String[] words = text.split("\\s+");
+    StringBuilder srt = new StringBuilder();
 
-        StringBuilder buf = new StringBuilder();
-        for (String p : parts) {
-            if (buf.length() + p.length() < 80) {
-                buf.append(p).append(" ");
-            } else {
-                list.add(buf.toString().trim());
-                buf.setLength(0);
-                buf.append(p).append(" ");
-            }
+    int index = 1;
+    int startSec = 0;
+
+    for (int i = 0; i < words.length; i += 3) {
+        int endSec = startSec + duration;
+
+        StringBuilder line = new StringBuilder();
+        for (int j = i; j < i + 3 && j < words.length; j++) {
+            line.append(words[j]).append(" ");
         }
-        if (buf.length() > 0) list.add(buf.toString().trim());
-        return list;
+
+        srt.append(index++).append("\n");
+        srt.append(formatTime(startSec))
+                .append(" --> ")
+                .append(formatTime(endSec))
+                .append("\n");
+        srt.append(line.toString().trim()).append("\n\n");
+
+        startSec = endSec;
     }
 
-    private String formatTime(int sec) {
-        int m = sec / 60;
-        int s = sec % 60;
-        return String.format("00:%02d:%02d,000", m, s);
+    try {
+        File file = new File(getExternalFilesDir(null), "shorts.srt");
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(srt.toString().getBytes());
+        fos.close();
+
+        Toast.makeText(
+                this,
+                "SRT готов:\n" + file.getAbsolutePath(),
+                Toast.LENGTH_LONG
+        ).show();
+
+    } catch (IOException e) {
+        Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
     }
-}
-            
+});   
