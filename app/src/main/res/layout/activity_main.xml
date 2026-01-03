@@ -34,18 +34,18 @@
     android:text="КОПИРОВАТЬ"
     android:layout_marginTop="12dp" />
 
-    <Button
+<Spinner
+    android:id="@+id/speedSpinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"/>
+
+<Button
     android:id="@+id/srtButton"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="SRT"
     android:layout_marginTop="12dp" />
-
-    <Spinner
-    android:id="@+id/speedSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="12dp"/>
     
     <TextView
         android:id="@+id/resultText"
