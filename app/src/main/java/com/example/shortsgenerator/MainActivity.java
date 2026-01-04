@@ -1,4 +1,4 @@
-package com.example.shortsgenerator;
+      package com.example.shortsgenerator;
 
 import android.os.Bundle;
 import android.widget.*;
@@ -13,6 +13,7 @@ import com.example.shortsgenerator.logic.VideoPlan;
 
 public class MainActivity extends AppCompatActivity {
 
+    private VideoPlan videoPlan;   // ✅ ОДИН экземпляр
     private File lastSrtFile;
 
     @Override
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         Button shareButton = findViewById(R.id.shareButton);
         Spinner speedSpinner = findViewById(R.id.speedSpinner);
         Spinner styleSpinner = findViewById(R.id.styleSpinner);
+
+        videoPlan = new VideoPlan(); // ✅ создаём ОДИН РАЗ
 
         // speed spinner
         String[] speeds = {"Медленно", "Нормально", "Быстро"};
@@ -58,30 +61,30 @@ public class MainActivity extends AppCompatActivity {
             String speed = speedSpinner.getSelectedItem().toString();
             String style = styleSpinner.getSelectedItem().toString();
 
-            VideoPlan plan = new VideoPlan();
-            String srt = plan.generateSrt(text, speed, style, this);
+            String srt = videoPlan.generateSrt(text, speed, style, this);
 
             resultText.setText(srt);
-            lastSrtFile = plan.getLastFile();
+            lastSrtFile = videoPlan.getLastFile();
         });
 
         shareButton.setOnClickListener(v -> {
-    File file = videoPlan.getLastFile();
-    if (file == null || !file.exists()) {
-        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-        return;
-    }
+            if (lastSrtFile == null || !lastSrtFile.exists()) {
+                Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-    shareIntent.setType("application/x-subrip");
-    shareIntent.putExtra(
-            Intent.EXTRA_STREAM,
-            FileProvider.getUriForFile(
-                    this,
-                    getPackageName() + ".provider",
-                    file
-            )
-    );
-    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
-});
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/x-subrip");
+            shareIntent.putExtra(
+                    Intent.EXTRA_STREAM,
+                    FileProvider.getUriForFile(
+                            this,
+                            getPackageName() + ".provider",
+                            lastSrtFile
+                    )
+            );
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
+        });
+    }
+}  
