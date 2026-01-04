@@ -118,36 +118,36 @@ public class MainActivity extends AppCompatActivity {
 
                 startSec = endSec;
             }
+try {
+    String fileName;
 
-            try {
-                String fileName;
+    switch (speed) {
+        case "Быстро":
+            fileName = "tiktok.srt";
+            break;
+        case "Медленно":
+            fileName = "reels.srt";
+            break;
+        default:
+            fileName = "shorts.srt";
+    }
 
-                switch (speed) {
-                    case "Быстро":
-                        fileName = "tiktok.srt";
-                        break;
-                    case "Медленно":
-                        fileName = "reels.srt";
-                        break;
-                    default:
-                        fileName = "shorts.srt";
-                }
+    File file = new File(getExternalFilesDir(null), fileName);
+    lastSrtFile = file; // ✅ ВАЖНО: сохраняем
 
-                File file = new File(getExternalFilesDir(null), fileName);
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(srt.toString().getBytes());
-                fos.close();
+    FileOutputStream fos = new FileOutputStream(file);
+    fos.write(srt.toString().getBytes());
+    fos.close();
 
-                // сохраняем для кнопки "Поделиться"
-                lastSrtFile = file;
+    Toast.makeText(
+            this,
+            "SRT готов:\n" + file.getAbsolutePath(),
+            Toast.LENGTH_LONG
+    ).show();
 
-                resultText.setText(srt.toString());
+    resultText.setText(srt.toString());
 
-                Toast.makeText(
-                        this,
-                        "SRT готов:\n" + file.getAbsolutePath(),
-                        Toast.LENGTH_LONG
-                ).show();
-
-            }
-                    
+} catch (IOException e) {
+    Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
+}
+            
