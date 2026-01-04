@@ -38,7 +38,22 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         speedSpinner.setAdapter(adapter);
 
-        // Генерация текста
+        //Spinner styleSpinner = findViewById(R.id.styleSpinner);
+
+String[] styles = {
+        "Классика",
+        "Агрессивный",
+        "Минимал",
+        "TikTok PRO"
+};
+
+ArrayAdapter<String> styleAdapter = new ArrayAdapter<>(
+        this,
+        android.R.layout.simple_spinner_item,
+        styles
+);
+styleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+styleSpinner.setAdapter(styleAdapter); Генерация текста
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
             resultText.setText(text.isEmpty() ? "Введите текст" : text);
@@ -111,7 +126,7 @@ startSec = 3;
     int extra = 0;
     if (line.length() > 12) extra++;
     if (line.toString().equals(line.toString().toUpperCase())) extra++;
-
+String emoji = enableEmoji ? detectEmoji(line.toString()) : "";
     extra += detectPauseBonus(line.toString());
 
     int endSec = startSec + Math.max(1, duration + extra);
@@ -151,7 +166,9 @@ startSec = 3;
 
             } catch (IOException e) {
                 Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
-            }
+            }int effectiveWords = maxWordsOverride > 0 ? maxWordsOverride : wordsPerLine;
+
+for (int i = 0; i < words.length; i += effectiveWords)
         });
 
         // Поделиться SRT
@@ -248,4 +265,28 @@ private int detectPauseBonus(String line) {
 
     return "";
 }  
-                            
+                 boolean forceCaps = false;
+boolean enableEmoji = true;
+int maxWordsOverride = -1;
+
+switch (style) {
+    case "Агрессивный":
+        forceCaps = true;
+        enableEmoji = true;
+        maxWordsOverride = 2;
+        break;
+
+    case "Минимал":
+        enableEmoji = false;
+        maxWordsOverride = 2;
+        break;
+
+    case "TikTok PRO":
+        forceCaps = true;
+        enableEmoji = true;
+        maxWordsOverride = 1;
+        break;
+
+    default: // Классика
+        enableEmoji = true;
+}           
