@@ -95,36 +95,36 @@ public class MainActivity extends AppCompatActivity {
             
 // HOOK — первая строка
 String hook = buildHook(text);
-
 srt.append(index++).append("\n");
 srt.append("00:00:00,000 --> 00:00:03,000\n");
 srt.append(hook).append("\n\n");
 
 startSec = 3;
-            for (int i = 0; i < words.length; i += wordsPerLine) {
-                StringBuilder line = new StringBuilder();
-                for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
-                    line.append(styleWord(words[j])).append(" ");
-                }
+           for (int i = 0; i < words.length; i += wordsPerLine) {
+    StringBuilder line = new StringBuilder();
+    for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
+        line.append(styleWord(words[j])).append(" ");
+    }
 
-int extra = 0;
+    String emoji = detectEmoji(line.toString());
 
-if (line.length() > 12) extra++;
-if (line.toString().equals(line.toString().toUpperCase())) extra++;
+    int extra = 0;
+    if (line.length() > 12) extra++;
+    if (line.toString().equals(line.toString().toUpperCase())) extra++;
 
-extra += detectPauseBonus(line.toString());
-                
-                int endSec = startSec + Math.max(1, duration + extra);
+    extra += detectPauseBonus(line.toString());
 
-                srt.append(index++).append("\n");
-                srt.append(formatTime(startSec))
-                        .append(" --> ")
-                        .append(formatTime(endSec))
-                        .append("\n");
-                srt.append(line.toString().trim()).append("\n\n");
+    int endSec = startSec + Math.max(1, duration + extra);
 
-                startSec = endSec;
-            }
+    srt.append(index++).append("\n");
+    srt.append(formatTime(startSec))
+            .append(" --> ")
+            .append(formatTime(endSec))
+            .append("\n");
+    srt.append(line.toString().trim()).append(emoji).append("\n\n");
+
+    startSec = endSec;
+} 
 
             try {
                 String fileName;
@@ -222,4 +222,30 @@ private int detectPauseBonus(String line) {
 
     return 0;
 }
+
+  private String detectEmoji(String line) {
+    String l = line.toLowerCase();
+
+    if (l.contains("?") || l.contains("почему") || l.contains("как")) {
+        return " 🤔";
+    }
+
+    if (l.contains("внимание") || l.contains("опасно") || l.contains("ошибка")) {
+        return " ⚠️";
+    }
+
+    if (l.contains("секрет") || l.contains("узнай") || l.contains("идея")) {
+        return " 💡";
+    }
+
+    if (l.contains("никогда") || l.contains("шок") || l.contains("страшно")) {
+        return " 😱";
+    }
+
+    if (l.contains("успех") || l.contains("получилось") || l.contains("работает")) {
+        return " 🔥";
+    }
+
+    return "";
+}  
                             
