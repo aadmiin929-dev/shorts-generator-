@@ -3,6 +3,7 @@ package com.example.shortsgenerator;
 import android.os.Bundle;
 import android.widget.*;
 import android.content.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -12,8 +13,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Храним последний созданный SRT
-    private File lastSrtFile;
+    private File lastSrtFile; // последний SRT
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,
                 speeds
         );
-        adapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item
-        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         speedSpinner.setAdapter(adapter);
 
         // Генерация текста
@@ -53,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Нечего копировать", Toast.LENGTH_SHORT).show();
                 return;
             }
-            
 
             ClipboardManager clipboard =
                     (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -66,69 +63,26 @@ public class MainActivity extends AppCompatActivity {
         // Генерация SRT
         srtButton.setOnClickListener(v -> {
             String text = resultText.getText().toString().trim();
-
             if (text.isEmpty()) {
                 Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-           shareButton.setOnClickListener(v -> {
-    if (lastSrtFile == null || !lastSrtFile.exists()) {
-        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-        return;
-    }
-
-            shareButton.setOnClickListener(v -> {
-    if (lastSrtFile == null || !lastSrtFile.exists()) {
-        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-        return;
-    }
-
-    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-    shareIntent.setType("application/x-subrip");
-
-    shareIntent.putExtra(
-            Intent.EXTRA_STREAM,
-            FileProvider.getUriForFile(
-                    this,
-                    getPackageName() + ".provider",
-                    lastSrtFile
-            )
-    );
-
-    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
-});   
-    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-    shareIntent.setType("application/x-subrip");
-
-    shareIntent.putExtra(
-            Intent.EXTRA_STREAM,
-            FileProvider.getUriForFile(
-                    this,
-                    getPackageName() + ".provider",
-                    lastSrtFile
-            )
-    );
-
-    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
-}); 
             String speed = speedSpinner.getSelectedItem().toString();
 
             int duration;
             int wordsPerLine;
 
             switch (speed) {
-                case "Быстро": // TikTok
+                case "Быстро":
                     duration = 1;
                     wordsPerLine = 2;
                     break;
-                case "Медленно": // Reels
+                case "Медленно":
                     duration = 3;
                     wordsPerLine = 3;
                     break;
-                default: // Shorts
+                default:
                     duration = 2;
                     wordsPerLine = 3;
             }
@@ -140,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
             int startSec = 0;
 
             for (int i = 0; i < words.length; i += wordsPerLine) {
-
                 StringBuilder line = new StringBuilder();
                 for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
                     line.append(styleWord(words[j])).append(" ");
@@ -161,36 +114,73 @@ public class MainActivity extends AppCompatActivity {
 
                 startSec = endSec;
             }
-try {
-    String fileName;
 
-    switch (speed) {
-        case "Быстро":
-            fileName = "tiktok.srt";
-            break;
-        case "Медленно":
-            fileName = "reels.srt";
-            break;
-        default:
-            fileName = "shorts.srt";
+            try {
+                String fileName;
+                switch (speed) {
+                    case "Быстро": fileName = "tiktok.srt"; break;
+                    case "Медленно": fileName = "reels.srt"; break;
+                    default: fileName = "shorts.srt";
+                }
+
+                File file = new File(getExternalFilesDir(null), fileName);
+                lastSrtFile = file;
+
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(srt.toString().getBytes());
+                fos.close();
+
+                resultText.setText(srt.toString());
+
+                Toast.makeText(
+                        this,
+                        "SRT готов:\n" + file.getAbsolutePath(),
+                        Toast.LENGTH_LONG
+                ).show();
+
+            } catch (IOException e) {
+                Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Поделиться SRT
+        shareButton.setOnClickListener(v -> {
+            if (lastSrtFile == null || !lastSrtFile.exists()) {
+                Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/x-subrip");
+            shareIntent.putExtra(
+                    Intent.EXTRA_STREAM,
+                    FileProvider.getUriForFile(
+                            this,
+                            getPackageName() + ".provider",
+                            lastSrtFile
+                    )
+            );
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
+        });
     }
 
-    File file = new File(getExternalFilesDir(null), fileName);
-    lastSrtFile = file; // ✅ ВАЖНО: сохраняем
+    private String formatTime(int seconds) {
+        int min = seconds / 60;
+        int sec = seconds % 60;
+        return String.format("00:%02d:%02d,000", min, sec);
+    }
 
-    FileOutputStream fos = new FileOutputStream(file);
-    fos.write(srt.toString().getBytes());
-    fos.close();
+    private boolean isImportantWord(String word) {
+        String w = word.toLowerCase();
+        return w.length() >= 6 ||
+                w.contains("не") ||
+                w.contains("никогда") ||
+                w.contains("всегда") ||
+                w.contains("очень");
+    }
 
-    Toast.makeText(
-            this,
-            "SRT готов:\n" + file.getAbsolutePath(),
-            Toast.LENGTH_LONG
-    ).show();
-
-    resultText.setText(srt.toString());
-
-} catch (IOException e) {
-    Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
-}
-            
+    private String styleWord(String word) {
+        return isImportantWord(word) ? word.toUpperCase() : word;
+    }
+}                            
