@@ -66,23 +66,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         shareButton.setOnClickListener(v -> {
-            if (lastSrtFile == null) {
-                Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("application/x-subrip");
-            intent.putExtra(
-                    Intent.EXTRA_STREAM,
-                    FileProvider.getUriForFile(
-                            this,
-                            getPackageName() + ".provider",
-                            lastSrtFile
-                    )
-            );
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(intent, "Поделиться SRT"));
-        });
+    File file = videoPlan.getLastFile();
+    if (file == null || !file.exists()) {
+        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
+        return;
     }
-}
+
+    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    shareIntent.setType("application/x-subrip");
+    shareIntent.putExtra(
+            Intent.EXTRA_STREAM,
+            FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    file
+            )
+    );
+    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(shareIntent, "Поделиться SRT"));
+});
