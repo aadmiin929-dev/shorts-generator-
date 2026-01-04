@@ -1,4 +1,4 @@
-     <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
@@ -34,21 +34,17 @@
         android:text="КОПИРОВАТЬ"
         android:layout_marginTop="12dp" />
 
-    <!-- Скорость -->
     <Spinner
         android:id="@+id/speedSpinner"
-        android:prompt="Скорость"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp" />
 
-    <!-- Стиль -->
     <Spinner
         android:id="@+id/styleSpinner"
-        android:prompt="Стиль"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/srtButton"
@@ -73,7 +69,7 @@
             android:id="@+id/resultText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </ScrollView>
 
-</LinearLayout>   
+</LinearLayout>     
