@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private File lastSrtFile; // последний SRT
+    private File lastSrtFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,40 +26,37 @@ public class MainActivity extends AppCompatActivity {
         Button copyButton = findViewById(R.id.copyButton);
         Button srtButton = findViewById(R.id.srtButton);
         Button shareButton = findViewById(R.id.shareButton);
-        Spinner speedSpinner = findViewById(R.id.speedSpinner);
 
-        // Spinner скоростей
+        Spinner speedSpinner = findViewById(R.id.speedSpinner);
+        Spinner styleSpinner = findViewById(R.id.styleSpinner);
+
+        // SPEED
         String[] speeds = {"Медленно", "Нормально", "Быстро"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<String> speedAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
                 speeds
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        speedSpinner.setAdapter(adapter);
+        speedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        speedSpinner.setAdapter(speedAdapter);
 
-        //Spinner styleSpinner = findViewById(R.id.styleSpinner);
+        // STYLE
+        String[] styles = {"Классика", "Агрессивный", "Минимал", "TikTok PRO"};
+        ArrayAdapter<String> styleAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_item,
+                styles
+        );
+        styleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        styleSpinner.setAdapter(styleAdapter);
 
-String[] styles = {
-        "Классика",
-        "Агрессивный",
-        "Минимал",
-        "TikTok PRO"
-};
-
-ArrayAdapter<String> styleAdapter = new ArrayAdapter<>(
-        this,
-        android.R.layout.simple_spinner_item,
-        styles
-);
-styleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-styleSpinner.setAdapter(styleAdapter); Генерация текста
+        // Generate text
         generateButton.setOnClickListener(v -> {
             String text = inputText.getText().toString().trim();
             resultText.setText(text.isEmpty() ? "Введите текст" : text);
         });
 
-        // Копирование
+        // Copy
         copyButton.setOnClickListener(v -> {
             String text = resultText.getText().toString();
             if (text.isEmpty()) {
@@ -75,8 +72,9 @@ styleSpinner.setAdapter(styleAdapter); Генерация текста
             Toast.makeText(this, "Скопировано", Toast.LENGTH_SHORT).show();
         });
 
-        // Генерация SRT
+        // Generate SRT
         srtButton.setOnClickListener(v -> {
+
             String text = resultText.getText().toString().trim();
             if (text.isEmpty()) {
                 Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
@@ -84,22 +82,39 @@ styleSpinner.setAdapter(styleAdapter); Генерация текста
             }
 
             String speed = speedSpinner.getSelectedItem().toString();
+            String style = styleSpinner.getSelectedItem().toString();
 
-            int duration;
-            int wordsPerLine;
+            int duration = 2;
+            int wordsPerLine = 3;
 
-            switch (speed) {
-                case "Быстро":
-                    duration = 1;
-                    wordsPerLine = 2;
+            if (speed.equals("Быстро")) {
+                duration = 1;
+                wordsPerLine = 2;
+            } else if (speed.equals("Медленно")) {
+                duration = 3;
+            }
+
+            boolean forceCaps = false;
+            boolean enableEmoji = true;
+            int maxWordsOverride = -1;
+
+            switch (style) {
+                case "Агрессивный":
+                    forceCaps = true;
+                    maxWordsOverride = 2;
                     break;
-                case "Медленно":
-                    duration = 3;
-                    wordsPerLine = 3;
+                case "Минимал":
+                    enableEmoji = false;
+                    maxWordsOverride = 2;
                     break;
-                default:
-                    duration = 2;
-                    wordsPerLine = 3;
+                case "TikTok PRO":
+                    forceCaps = true;
+                    maxWordsOverride = 1;
+                    break;
+            }
+
+            if (maxWordsOverride > 0) {
+                wordsPerLine = maxWordsOverride;
             }
 
             String[] words = text.split("\\s+");
@@ -107,49 +122,38 @@ styleSpinner.setAdapter(styleAdapter); Генерация текста
 
             int index = 1;
             int startSec = 0;
-            
-// HOOK — первая строка
-String hook = buildHook(text);
-srt.append(index++).append("\n");
-srt.append("00:00:00,000 --> 00:00:03,000\n");
-srt.append(hook).append("\n\n");
 
-startSec = 3;
-           for (int i = 0; i < words.length; i += wordsPerLine) {
-    StringBuilder line = new StringBuilder();
-    for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
-        line.append(styleWord(words[j])).append(" ");
-    }
+            // HOOK
+            srt.append(index++).append("\n");
+            srt.append("00:00:00,000 --> 00:00:03,000\n");
+            srt.append(buildHook(text)).append("\n\n");
+            startSec = 3;
 
-    String emoji = detectEmoji(line.toString());
+            for (int i = 0; i < words.length; i += wordsPerLine) {
 
-    int extra = 0;
-    if (line.length() > 12) extra++;
-    if (line.toString().equals(line.toString().toUpperCase())) extra++;
-String emoji = enableEmoji ? detectEmoji(line.toString()) : "";
-    extra += detectPauseBonus(line.toString());
-
-    int endSec = startSec + Math.max(1, duration + extra);
-
-    srt.append(index++).append("\n");
-    srt.append(formatTime(startSec))
-            .append(" --> ")
-            .append(formatTime(endSec))
-            .append("\n");
-    srt.append(line.toString().trim()).append(emoji).append("\n\n");
-
-    startSec = endSec;
-} 
-
-            try {
-                String fileName;
-                switch (speed) {
-                    case "Быстро": fileName = "tiktok.srt"; break;
-                    case "Медленно": fileName = "reels.srt"; break;
-                    default: fileName = "shorts.srt";
+                StringBuilder line = new StringBuilder();
+                for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
+                    String w = words[j];
+                    line.append(forceCaps ? w.toUpperCase() : styleWord(w)).append(" ");
                 }
 
-                File file = new File(getExternalFilesDir(null), fileName);
+                String emoji = enableEmoji ? detectEmoji(line.toString()) : "";
+
+                int extra = detectPauseBonus(line.toString());
+                int endSec = startSec + Math.max(1, duration + extra);
+
+                srt.append(index++).append("\n");
+                srt.append(formatTime(startSec))
+                        .append(" --> ")
+                        .append(formatTime(endSec))
+                        .append("\n");
+                srt.append(line.toString().trim()).append(emoji).append("\n\n");
+
+                startSec = endSec;
+            }
+
+            try {
+                File file = new File(getExternalFilesDir(null), "shorts.srt");
                 lastSrtFile = file;
 
                 FileOutputStream fos = new FileOutputStream(file);
@@ -157,21 +161,14 @@ String emoji = enableEmoji ? detectEmoji(line.toString()) : "";
                 fos.close();
 
                 resultText.setText(srt.toString());
-
-                Toast.makeText(
-                        this,
-                        "SRT готов:\n" + file.getAbsolutePath(),
-                        Toast.LENGTH_LONG
-                ).show();
+                Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
 
             } catch (IOException e) {
-                Toast.makeText(this, "Ошибка сохранения SRT", Toast.LENGTH_SHORT).show();
-            }int effectiveWords = maxWordsOverride > 0 ? maxWordsOverride : wordsPerLine;
-
-for (int i = 0; i < words.length; i += effectiveWords)
+                Toast.makeText(this, "Ошибка сохранения", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // Поделиться SRT
+        // Share
         shareButton.setOnClickListener(v -> {
             if (lastSrtFile == null || !lastSrtFile.exists()) {
                 Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
@@ -194,99 +191,33 @@ for (int i = 0; i < words.length; i += effectiveWords)
     }
 
     private String formatTime(int seconds) {
-        int min = seconds / 60;
-        int sec = seconds % 60;
-        return String.format("00:%02d:%02d,000", min, sec);
-    }
-
-    private boolean isImportantWord(String word) {
-        String w = word.toLowerCase();
-        return w.length() >= 6 ||
-                w.contains("не") ||
-                w.contains("никогда") ||
-                w.contains("всегда") ||
-                w.contains("очень");
+        return String.format("00:%02d:%02d,000", seconds / 60, seconds % 60);
     }
 
     private String styleWord(String word) {
-        return isImportantWord(word) ? word.toUpperCase() : word;
+        return word.length() >= 6 ? word.toUpperCase() : word;
     }
 
     private String buildHook(String text) {
-    String[] words = text.split("\\s+");
-    StringBuilder hook = new StringBuilder();
-
-    for (int i = 0; i < Math.min(6, words.length); i++) {
-        hook.append(words[i]).append(" ");
+        String[] w = text.split("\\s+");
+        StringBuilder h = new StringBuilder("⚡ ");
+        for (int i = 0; i < Math.min(6, w.length); i++) h.append(w[i]).append(" ");
+        return h.toString().trim().toUpperCase() + "!";
     }
 
-    return "⚡ " + hook.toString().trim().toUpperCase() + "!";
+    private int detectPauseBonus(String l) {
+        l = l.toLowerCase();
+        if (l.contains("?")) return 2;
+        if (l.contains("!")) return 1;
+        return 0;
+    }
+
+    private String detectEmoji(String l) {
+        l = l.toLowerCase();
+        if (l.contains("?")) return " 🤔";
+        if (l.contains("секрет")) return " 💡";
+        if (l.contains("ошибка")) return " ⚠️";
+        if (l.contains("успех")) return " 🔥";
+        return "";
+    }
 }
-
-private int detectPauseBonus(String line) {
-    String l = line.toLowerCase();
-
-    if (l.contains("?")) return 2;
-    if (l.contains("!")) return 1;
-    if (l.contains("...")) return 2;
-
-    if (l.contains("почему") ||
-        l.contains("как") ||
-        l.contains("но") ||
-        l.contains("если")) {
-        return 1;
-    }
-
-    return 0;
-}
-
-  private String detectEmoji(String line) {
-    String l = line.toLowerCase();
-
-    if (l.contains("?") || l.contains("почему") || l.contains("как")) {
-        return " 🤔";
-    }
-
-    if (l.contains("внимание") || l.contains("опасно") || l.contains("ошибка")) {
-        return " ⚠️";
-    }
-
-    if (l.contains("секрет") || l.contains("узнай") || l.contains("идея")) {
-        return " 💡";
-    }
-
-    if (l.contains("никогда") || l.contains("шок") || l.contains("страшно")) {
-        return " 😱";
-    }
-
-    if (l.contains("успех") || l.contains("получилось") || l.contains("работает")) {
-        return " 🔥";
-    }
-
-    return "";
-}  
-                 boolean forceCaps = false;
-boolean enableEmoji = true;
-int maxWordsOverride = -1;
-
-switch (style) {
-    case "Агрессивный":
-        forceCaps = true;
-        enableEmoji = true;
-        maxWordsOverride = 2;
-        break;
-
-    case "Минимал":
-        enableEmoji = false;
-        maxWordsOverride = 2;
-        break;
-
-    case "TikTok PRO":
-        forceCaps = true;
-        enableEmoji = true;
-        maxWordsOverride = 1;
-        break;
-
-    default: // Классика
-        enableEmoji = true;
-}           
