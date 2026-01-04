@@ -107,10 +107,13 @@ startSec = 3;
                     line.append(styleWord(words[j])).append(" ");
                 }
 
-                int extra = 0;
-                if (line.length() > 12) extra = 1;
-                if (line.toString().equals(line.toString().toUpperCase())) extra = 1;
+int extra = 0;
 
+if (line.length() > 12) extra++;
+if (line.toString().equals(line.toString().toUpperCase())) extra++;
+
+extra += detectPauseBonus(line.toString());
+                
                 int endSec = startSec + Math.max(1, duration + extra);
 
                 srt.append(index++).append("\n");
@@ -201,5 +204,22 @@ startSec = 3;
     }
 
     return "⚡ " + hook.toString().trim().toUpperCase() + "!";
+
+       private int detectPauseBonus(String line) {
+    String l = line.toLowerCase();
+
+    if (l.contains("?")) return 2;
+    if (l.contains("!")) return 1;
+    if (l.contains("...")) return 2;
+
+    if (l.contains("почему") ||
+        l.contains("как") ||
+        l.contains("но") ||
+        l.contains("если")) {
+        return 1;
+    }
+
+    return 0;
+} 
 }
 }                            
