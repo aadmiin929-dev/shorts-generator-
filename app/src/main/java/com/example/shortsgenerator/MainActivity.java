@@ -204,8 +204,9 @@ extra += detectPauseBonus(line.toString());
     }
 
     return "⚡ " + hook.toString().trim().toUpperCase() + "!";
+}
 
-       private int detectPauseBonus(String line) {
+private int detectPauseBonus(String line) {
     String l = line.toLowerCase();
 
     if (l.contains("?")) return 2;
@@ -220,6 +221,5 @@ extra += detectPauseBonus(line.toString());
     }
 
     return 0;
-} 
 }
-}                            
+                            
