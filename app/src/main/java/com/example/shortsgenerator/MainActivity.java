@@ -92,7 +92,15 @@ public class MainActivity extends AppCompatActivity {
 
             int index = 1;
             int startSec = 0;
+            
+// HOOK — первая строка
+String hook = buildHook(text);
 
+srt.append(index++).append("\n");
+srt.append("00:00:00,000 --> 00:00:03,000\n");
+srt.append(hook).append("\n\n");
+
+startSec = 3;
             for (int i = 0; i < words.length; i += wordsPerLine) {
                 StringBuilder line = new StringBuilder();
                 for (int j = i; j < i + wordsPerLine && j < words.length; j++) {
@@ -183,4 +191,15 @@ public class MainActivity extends AppCompatActivity {
     private String styleWord(String word) {
         return isImportantWord(word) ? word.toUpperCase() : word;
     }
+
+    private String buildHook(String text) {
+    String[] words = text.split("\\s+");
+    StringBuilder hook = new StringBuilder();
+
+    for (int i = 0; i < Math.min(6, words.length); i++) {
+        hook.append(words[i]).append(" ");
+    }
+
+    return "⚡ " + hook.toString().trim().toUpperCase() + "!";
+}
 }                            
