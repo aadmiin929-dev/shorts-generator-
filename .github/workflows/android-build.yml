@@ -36,7 +36,25 @@ jobs:
          name: ShortsGenerator-APK
          path: app/**/*.apk
 
+      - name: Generate keystore
+        run: |
+         keytool -genkeypair \
+         -keystore release.jks \
+         -storepass 123456 \
+         -keypass 123456 \
+         -alias release \
+         -keyalg RSA \
+         -keysize 2048 \
+         -validity 10000 \
+         -dname "CN=ShortsGenerator,O=Dev,C=RU"
 
+      - name: Build signed APK
+        run: |
+         ./gradlew assembleRelease \
+         -Pandroid.injected.signing.store.file=release.jks \
+         -Pandroid.injected.signing.store.password=123456 \
+         -Pandroid.injected.signing.key.alias=release \
+         -Pandroid.injected.signing.key.password=123456
 
 
 
