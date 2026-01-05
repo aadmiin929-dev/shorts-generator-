@@ -36,7 +36,11 @@ jobs:
             -keysize 2048 \
             -validity 10000 \
             -dname "CN=ShortsGenerator,O=Dev,C=RU"
-
+            
+      - name: Convert keystore to base64
+        run: |
+          base64 release.jks
+          
       # 2️⃣ Собираем СРАЗУ ПОДПИСАННЫЙ APK
       - name: Build signed Release APK
         run: |
