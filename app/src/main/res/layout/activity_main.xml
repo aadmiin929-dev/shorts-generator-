@@ -16,19 +16,36 @@
     android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/inputText"
-        android:hint="Введи текст для Shorts"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    android:id="@+id/inputText"
+    android:hint="Вставь текст для Shorts / Reels / TikTok"
+    android:layout_marginTop="8dp"
+    android:minLines="3"
+    android:gravity="top|start"
+    android:inputType="textMultiLine"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+    
+   <Button
+    android:id="@+id/generateButton"
+    android:text="СГЕНЕРИРОВАТЬ"
+    android:layout_marginTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/generateButton"
-        android:text="Сгенерировать"
-        android:layout_marginTop="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+<Button
+    android:id="@+id/srtButton"
+    android:text="СОЗДАТЬ SRT"
+    android:layout_marginTop="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
+<Button
+    android:id="@+id/shareButton"
+    android:text="ПОДЕЛИТЬСЯ"
+    android:layout_marginTop="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" /> 
+  
     <Button
         android:id="@+id/copyButton"
         android:layout_width="wrap_content"
@@ -46,20 +63,6 @@
         android:id="@+id/styleSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp" />
-
-    <Button
-        android:id="@+id/srtButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SRT"
-        android:layout_marginTop="12dp" />
-
-    <Button
-        android:id="@+id/shareButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ПОДЕЛИТЬСЯ"
         android:layout_marginTop="12dp" />
 
     <ScrollView
