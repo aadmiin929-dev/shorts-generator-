@@ -33,10 +33,10 @@ jobs:
       - name: Build signed Release APK
         run: |
           ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=release.jks \
-            -Pandroid.injected.signing.store.password=123456 \
-            -Pandroid.injected.signing.key.alias=release \
-            -Pandroid.injected.signing.key.password=123456
+          -Pandroid.injected.signing.store.file=../release.jks \
+          -Pandroid.injected.signing.store.password=123456 \
+          -Pandroid.injected.signing.key.alias=release \
+          -Pandroid.injected.signing.key.password=123456
 
       # 3️⃣ Проверяем APK
       - name: List APK files
