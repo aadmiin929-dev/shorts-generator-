@@ -15,8 +15,8 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
@@ -24,38 +24,37 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      # 1️⃣ Генерируем keystore
+      - name: Generate keystore
+        run: |
+          keytool -genkeypair \
+            -keystore release.jks \
+            -storepass 123456 \
+            -keypass 123456 \
+            -alias release \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=ShortsGenerator,O=Dev,C=RU"
+
+      # 2️⃣ Собираем СРАЗУ ПОДПИСАННЫЙ APK
+      - name: Build signed Release APK
+        run: |
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=release.jks \
+            -Pandroid.injected.signing.store.password=123456 \
+            -Pandroid.injected.signing.key.alias=release \
+            -Pandroid.injected.signing.key.password=123456
+
+      # 3️⃣ Проверяем, что APK реально есть
       - name: List APK files
         run: |
-         echo "=== APK files ==="
-         find app -name "*.apk" || true
+          echo "=== APK files ==="
+          find app/build/outputs/apk -name "*.apk"
+
+      # 4️⃣ Загружаем УЖЕ ПОДПИСАННЫЙ APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-         name: ShortsGenerator-APK
-         path: app/**/*.apk
-
-      - name: Generate keystore
-        run: |
-         keytool -genkeypair \
-         -keystore release.jks \
-         -storepass 123456 \
-         -keypass 123456 \
-         -alias release \
-         -keyalg RSA \
-         -keysize 2048 \
-         -validity 10000 \
-         -dname "CN=ShortsGenerator,O=Dev,C=RU"
-
-      - name: Build signed APK
-        run: |
-         ./gradlew assembleRelease \
-         -Pandroid.injected.signing.store.file=release.jks \
-         -Pandroid.injected.signing.store.password=123456 \
-         -Pandroid.injected.signing.key.alias=release \
-         -Pandroid.injected.signing.key.password=123456
-
-
-
-
+          name: ShortsGenerator-APK
+          path: app
