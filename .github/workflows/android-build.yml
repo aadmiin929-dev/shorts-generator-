@@ -24,12 +24,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # Восстанавливаем keystore из base64
-      - name: Restore keystore
+      # 🔐 Восстанавливаем keystore из Secrets
+      - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.jks
 
-      # Собираем ПОДПИСАННЫЙ APK
+      # 📦 Собираем ПОДПИСАННЫЙ APK
       - name: Build signed Release APK
         run: |
           ./gradlew assembleRelease \
@@ -38,12 +38,12 @@ jobs:
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
 
-      # Проверка
+      # 📂 Проверка
       - name: List APK files
         run: |
           find app/build/outputs/apk -name "*.apk"
 
-      # Загружаем APK
+      # ⬆️ Загрузка APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
