@@ -26,12 +26,18 @@ jobs:
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
-
+      - name: List APK files
+        run: |
+         echo "=== APK files ==="
+         find app -name "*.apk" || true
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: ShortsGenerator-APK
-          path: app/build/outputs/apk/release/*.apk
-           app/build/outputs/apk/**/*.apk
+         name: ShortsGenerator-APK
+         path: app/**/*.apk
 
-          
+
+
+
+
+
