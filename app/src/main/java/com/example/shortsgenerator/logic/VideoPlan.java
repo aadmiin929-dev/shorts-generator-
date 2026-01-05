@@ -5,34 +5,14 @@ import android.content.Context;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class VideoPlan {
 
-    private List<Scene> scenes;
     private File lastFile;
 
-    // 🔹 ПУСТОЙ конструктор (оставляем)
+    // Пустой конструктор
     public VideoPlan() {
     }
-
-    // 🔹 КОНСТРУКТОР С Scene
-    public VideoPlan(List<Scene> scenes) {
-        this.scenes = scenes;
-    }
-
-    public String generateSrt(String text, String speed, String style, Context context) {
-        // твоя логика генерации SRT
-        return "";
-    }
-
-    public File getLastFile() {
-        return lastFile;
-    }
-}
-public class VideoPlan {
-
-    private File lastFile;
 
     public File getLastFile() {
         return lastFile;
@@ -206,24 +186,18 @@ public class VideoPlan {
         if (l.contains("?") || l.contains("почему") || l.contains("как")) {
             return " 🤔";
         }
-
         if (l.contains("внимание") || l.contains("опасно") || l.contains("ошибка")) {
             return " ⚠️";
         }
-
         if (l.contains("секрет") || l.contains("узнай") || l.contains("идея")) {
             return " 💡";
         }
-
         if (l.contains("никогда") || l.contains("шок") || l.contains("страшно")) {
             return " 😱";
         }
-
         if (l.contains("успех") || l.contains("получилось") || l.contains("работает")) {
             return " 🔥";
         }
-
         return "";
     }
 }
-
