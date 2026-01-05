@@ -56,6 +56,16 @@
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    </ScrollView>
+   </ScrollView>
+
+<Spinner
+    android:id="@+id/speedSpinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+<Spinner
+    android:id="@+id/styleSpinner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
 </LinearLayout>
