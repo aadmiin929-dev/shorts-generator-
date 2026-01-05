@@ -25,18 +25,26 @@ android {
     }
 }
 
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core-ktx:1.12.0'
+/**
+ * Убираем устаревшие Kotlin JDK модули
+ */
+configurations.all {
+    exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk7"
+    exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib-jdk8"
 }
+
 dependencies {
 
+    // AndroidX
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
+
+    /**
+     * Жёстко фиксируем ОДНУ версию Kotlin
+     */
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.22") {
             because("Force single Kotlin stdlib version to avoid duplicates")
         }
     }
-
 }
-
-
