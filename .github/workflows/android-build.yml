@@ -24,31 +24,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 1️⃣ Восстанавливаем keystore
-      - name: Decode keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+      # 🔹 Сборка AAB (БЕЗ подписи — нормально)
+      - name: Build Release AAB
+        run: ./gradlew bundleRelease
 
-      # 2️⃣ Проверяем keystore
-      - name: Check keystore
-        run: |
-          ls -l app/release.jks
-
-      # 3️⃣ Собираем ПОДПИСАННЫЙ AAB
-      - name: Build signed Release AAB
-        run: |
-          ./gradlew bundleRelease \
-            -Pandroid.injected.signing.store.file=app/release.jks \
-            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-
-      # 4️⃣ Проверяем AAB
-      - name: List AAB files
+      # 🔹 Проверка
+      - name: List AAB
         run: |
           find app/build/outputs/bundle -name "*.aab"
 
-      # 5️⃣ Загружаем AAB
+      # 🔹 Сохранение
       - name: Upload AAB
         uses: actions/upload-artifact@v4
         with:
