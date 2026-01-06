@@ -24,17 +24,16 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-
-      # 1️⃣ Восстанавливаем keystore из base64
+      # 1️⃣ Decode keystore from base64
       - name: Decode keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
 
-      # 2️⃣ Проверяем, что keystore существует
+      # 2️⃣ Check keystore exists
       - name: Check keystore
         run: ls -l app/release.jks
 
-      # 3️⃣ Собираем ПОДПИСАННЫЙ APK
+      # 3️⃣ Build SIGNED release APK
       - name: Build signed Release APK
         run: |
           ./gradlew assembleRelease \
@@ -43,12 +42,11 @@ jobs:
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
 
-      # 4️⃣ Проверяем APK
+      # 4️⃣ Verify APK
       - name: List APK files
-        run: |
-          find app/build/outputs/apk -name "*.apk"
+        run: find app/build/outputs/apk -name "*.apk"
 
-      # 5️⃣ Загружаем APK
+      # 5️⃣ Upload APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
