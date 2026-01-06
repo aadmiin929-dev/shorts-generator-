@@ -24,24 +24,23 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 1️⃣ Восстанавливаем keystore
+      # 1️⃣ Восстанавливаем keystore В КОРЕНЬ
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+         echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.jks
 
-      # 2️⃣ Проверка
+      # 2️⃣ Проверяем
       - name: Check keystore
-        run: ls -l app/release.jks
+        run: ls -l release.jks
 
-      # 3️⃣ Собираем APK
+      # 3️⃣ Собираем ПОДПИСАННЫЙ APK
       - name: Build signed Release APK
         run: |
-          ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=app/release.jks \
-            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-
+         ./gradlew assembleRelease \
+         -Pandroid.injected.signing.store.file=release.jks \
+         -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+         -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+         -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
       # 4️⃣ Проверяем APK
       - name: List APK files
         run: |
