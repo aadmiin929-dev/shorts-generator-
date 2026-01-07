@@ -24,30 +24,31 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # Восстанавливаем keystore
+      # 1️⃣ Decode keystore INTO ROOT
       - name: Decode keystore
         run: |
-         echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.jks
 
-      # Проверяем keystore
+      # 2️⃣ Check keystore
       - name: Check keystore
         run: |
-         ls -l app/release.jks
+          ls -l release.jks
 
-      # Собираем подписанный APK
+      # 3️⃣ Build SIGNED APK
       - name: Build signed Release APK
         run: |
-         ./gradlew assembleRelease \
-         -Pandroid.injected.signing.store.file=release.jks \
-         -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
-         -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-         -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-      # 4️⃣ Проверяем APK
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=release.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
+
+      # 4️⃣ List APK
       - name: List APK files
         run: |
           find app/build/outputs/apk -name "*.apk"
 
-      # 5️⃣ Загружаем APK
+      # 5️⃣ Upload APK
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
