@@ -24,24 +24,25 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 1️⃣ Decode keystore into ROOT
+      # 1️⃣ Decode keystore INTO app/
       - name: Decode keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > release.jks
+         echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
 
       # 2️⃣ Check keystore
       - name: Check keystore
-        run: ls -l release.jks
+        run: |
+          ls -l app/release.jks
 
-      # 3️⃣ Build SIGNED APK (ЕДИНСТВЕННЫЙ build шаг)
-      - name: Build signed APK
+      # 3️⃣ Build signed APK
+      - name: Build signed Release APK
         env:
-          KEYSTORE_FILE: release.jks
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+         KEYSTORE_FILE: release.jks
+         KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+         KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+         KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew assembleRelease
-
+      
       # 4️⃣ List APK
       - name: List APK files
         run: find app/build/outputs/apk -name "*.apk"
