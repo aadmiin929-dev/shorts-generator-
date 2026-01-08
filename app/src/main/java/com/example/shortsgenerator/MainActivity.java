@@ -179,7 +179,10 @@ public class MainActivity extends AppCompatActivity {
 
     private File generateTikTokSrt(String text) {
         try {
-            File file = new File(getFilesDir(), "subtitles_tiktok.srt");
+            File downloadsDir = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS
+);
+File file = new File(downloadsDir, "tiktok_" + timeStamp + ".srt");
             StringBuilder srt = new StringBuilder();
 
             String[] words = text.split("\\s+");
