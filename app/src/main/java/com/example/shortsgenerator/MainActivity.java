@@ -8,11 +8,9 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.os.Environment;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import android.os.Environment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // UI
         EditText inputText = findViewById(R.id.inputText);
         TextView resultText = findViewById(R.id.resultText);
         Button generateButton = findViewById(R.id.btnGenerate);
@@ -35,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner speedSpinner = findViewById(R.id.speedSpinner);
         Spinner styleSpinner = findViewById(R.id.styleSpinner);
 
-        // Speed spinner
+        // Speed
         ArrayAdapter<String> speedAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         speedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         speedSpinner.setAdapter(speedAdapter);
 
-        // Style spinner
+        // Style
         ArrayAdapter<String> styleAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -61,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                         resultText.setText("❗ Вставь текст");
                         return;
                     }
-
                     resultText.setText(
                             "🎬 Стиль: " + styleSpinner.getSelectedItem() + "\n" +
                             "⏱ Скорость: " + speedSpinner.getSelectedItem() + "\n\n" +
@@ -75,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 animateClick(v, () -> {
                     String text = inputText.getText().toString().trim();
                     if (text.isEmpty()) {
-                        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Нет текста", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -89,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (lastSrtFile != null) {
-                        Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "SRT сохранён в Загрузки", Toast.LENGTH_SHORT).show();
                     }
                 })
         );
 
-        // Share SRT
+        // Share
         shareButton.setOnClickListener(v ->
                 animateClick(v, () -> {
                     if (lastSrtFile == null || !lastSrtFile.exists()) {
@@ -119,137 +115,113 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // ===== SMART SRT =====
-
     private File generateSmartSrt(String text, String speed) {
-    try {
-        File downloadsDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS
-        );
-
-        String timeStamp = new SimpleDateFormat(
-                "yyyy-MM-dd_HH-mm-ss",
-                Locale.getDefault()
-        ).format(new Date());
-
-        File file = new File(downloadsDir, "shorts_" + timeStamp + ".srt");
-
-        float duration;
-        switch (speed) {
-            case "Медленно": duration = 3.0f; break;
-            case "Быстро": duration = 1.2f; break;
-            default: duration = 2.0f;
-        }
-
-        StringBuilder srt = new StringBuilder();
-        String[] parts = text.split("[.!?]");
-        float time = 0f;
-        int index = 1;
-
-        for (String part : parts) {
-            part = part.trim();
-            if (part.isEmpty()) continue;
-
-            srt.append(index++).append("\n");
-            srt.append(formatTime(time))
-               .append(" --> ")
-               .append(formatTime(time + duration))
-               .append("\n");
-            srt.append(part).append("\n\n");
-
-            time += duration;
-        }
-
-        FileOutputStream fos = new FileOutputStream(file);
-        fos.write(srt.toString().getBytes());
-        fos.close();
-        Toast.makeText(
-    this,
-    "SRT сохранён в Загрузки",
-    Toast.LENGTH_SHORT
-).show();
-        return file;
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-    }
-}
-
-    // ===== TIKTOK PRO SRT =====
-
-    private File generateTikTokSrt(String text) {
         try {
-            File downloadsDir = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_DOWNLOADS
-);
-File file = new File(downloadsDir, "tiktok_" + timeStamp + ".srt");
+            File dir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS
+            );
+
+            String name = new SimpleDateFormat(
+                    "yyyy-MM-dd_HH-mm-ss",
+                    Locale.getDefault()
+            ).format(new Date());
+
+            File file = new File(dir, "shorts_" + name + ".srt");
+
+            float duration;
+            if (speed.equals("Медленно")) duration = 3f;
+            else if (speed.equals("Быстро")) duration = 1.2f;
+            else duration = 2f;
+
             StringBuilder srt = new StringBuilder();
+            String[] parts = text.split("[.!?]");
+            float time = 0f;
+            int i = 1;
 
-            String[] words = text.split("\\s+");
-            int timeMs = 0;
-            int index = 1;
+            for (String p : parts) {
+                p = p.trim();
+                if (p.isEmpty()) continue;
 
-            for (String word : words) {
-                if (word.trim().isEmpty()) continue;
-
-                srt.append(index++).append("\n");
-                srt.append(formatTimeMs(timeMs))
+                srt.append(i++).append("\n");
+                srt.append(formatTime(time))
                         .append(" --> ")
-                        .append(formatTimeMs(timeMs + 500))
+                        .append(formatTime(time + duration))
                         .append("\n");
-                srt.append(word.toUpperCase()).append("\n\n");
+                srt.append(p).append("\n\n");
 
-                timeMs += 500;
+                time += duration;
             }
 
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(srt.toString().getBytes());
             fos.close();
-            return file;
 
+            return file;
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
 
-    // ===== HELPERS =====
+    // ===== TIKTOK PRO SRT =====
+    private File generateTikTokSrt(String text) {
+        try {
+            File dir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DOWNLOADS
+            );
 
-    private List<String> splitSmart(String text) {
-        String[] raw = text.split("[.!?]");
-        List<String> result = new ArrayList<>();
+            String name = new SimpleDateFormat(
+                    "yyyy-MM-dd_HH-mm-ss",
+                    Locale.getDefault()
+            ).format(new Date());
 
-        for (String part : raw) {
-            part = part.trim();
-            if (part.length() > 40) {
-                int mid = part.length() / 2;
-                result.add(part.substring(0, mid).trim());
-                result.add(part.substring(mid).trim());
-            } else {
-                result.add(part);
+            File file = new File(dir, "tiktok_" + name + ".srt");
+
+            StringBuilder srt = new StringBuilder();
+            String[] words = text.split("\\s+");
+            int time = 0;
+            int i = 1;
+
+            for (String w : words) {
+                if (w.trim().isEmpty()) continue;
+
+                srt.append(i++).append("\n");
+                srt.append(formatTimeMs(time))
+                        .append(" --> ")
+                        .append(formatTimeMs(time + 500))
+                        .append("\n");
+                srt.append(w.toUpperCase()).append("\n\n");
+
+                time += 500;
             }
+
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(srt.toString().getBytes());
+            fos.close();
+
+            return file;
+        } catch (Exception e) {
+            return null;
         }
-        return result;
     }
 
-    private String formatTime(float seconds) {
-        int sec = (int) seconds;
-        int ms = (int) ((seconds - sec) * 1000);
-        return String.format("00:00:%02d,%03d", sec, ms);
+    private String formatTime(float sec) {
+        int s = (int) sec;
+        int ms = (int) ((sec - s) * 1000);
+        return String.format("00:00:%02d,%03d", s, ms);
     }
 
     private String formatTimeMs(int ms) {
-        int sec = ms / 1000;
-        int milli = ms % 1000;
-        return String.format("00:00:%02d,%03d", sec, milli);
+        int s = ms / 1000;
+        int m = ms % 1000;
+        return String.format("00:00:%02d,%03d", s, m);
     }
 
-    private void animateClick(View view, Runnable action) {
-        view.animate()
+    private void animateClick(View v, Runnable action) {
+        v.animate()
                 .scaleX(0.95f)
                 .scaleY(0.95f)
                 .setDuration(80)
-                .withEndAction(() -> view.animate()
+                .withEndAction(() -> v.animate()
                         .scaleX(1f)
                         .scaleY(1f)
                         .setDuration(80)
