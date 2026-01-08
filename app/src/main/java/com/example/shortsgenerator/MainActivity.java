@@ -46,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
         styleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         styleSpinner.setAdapter(styleAdapter);
 
-        // Preview
-        generateButton.setOnClickListener(v -> {
+        generateButton.setOnClickListener(v ->
+        animateClick(v, () -> {
+
             String text = inputText.getText().toString().trim();
 
             if (text.isEmpty()) {
@@ -61,10 +62,11 @@ public class MainActivity extends AppCompatActivity {
                     text;
 
             resultText.setText(result);
-        });
-
+        })
+);
         // Create SRT
-        srtButton.setOnClickListener(v -> {
+        srtButton.setOnClickListener(v ->
+        animateClick(v, () -> {
             String text = inputText.getText().toString().trim();
             String style = styleSpinner.getSelectedItem().toString();
 
@@ -82,10 +84,12 @@ public class MainActivity extends AppCompatActivity {
             if (lastSrtFile != null) {
                 Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+);
 
         // Share SRT
-        shareButton.setOnClickListener(v -> {
+        shareButton.setOnClickListener(v ->
+        animateClick(v, () -> {
             if (lastSrtFile == null || !lastSrtFile.exists()) {
                 Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
                 return;
@@ -103,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
             );
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(Intent.createChooser(intent, "Поделиться SRT"));
-        });
-    }
+        })
+);
 
     // ===== SRT LOGIC =====
 
@@ -183,3 +187,31 @@ public class MainActivity extends AppCompatActivity {
         return String.format("00:00:%02d,%03d", seconds, millis);
     }
 }
+
+private void animateClick(View view, Runnable action) {
+    view.animate()
+            .scaleX(0.95f)
+            .scaleY(0.95f)
+            .setDuration(80)
+            .withEndAction(() -> view.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(80)
+                    .withEndAction(action)
+                    .start())
+            .start();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
