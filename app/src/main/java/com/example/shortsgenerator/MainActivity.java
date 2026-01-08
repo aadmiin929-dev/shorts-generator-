@@ -63,7 +63,26 @@ public class MainActivity extends AppCompatActivity {
             resultText.setText(result);
         });
 
-        // Create SRT
+      // Share SRT
+shareButton.setOnClickListener(v -> {
+    if (lastSrtFile == null || !lastSrtFile.exists()) {
+        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    Intent intent = new Intent(Intent.ACTION_SEND);
+    intent.setType("application/x-subrip");
+    intent.putExtra(
+            Intent.EXTRA_STREAM,
+            FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    lastSrtFile
+            )
+    );
+    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    startActivity(Intent.createChooser(intent, "Поделиться SRT"));
+});  // Create SRT
         srtButton.setOnClickListener(v -> {
     String text = inputText.getText().toString().trim();
     String style = styleSpinner.getSelectedItem().toString();
