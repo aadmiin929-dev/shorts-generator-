@@ -80,9 +80,7 @@ shareButton.setOnClickListener(v -> {
                     lastSrtFile
             )
     );
-    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    startActivity(Intent.createChooser(intent, "Поделиться SRT"));
-}); 
+    
         // Create SRT
         srtButton.setOnClickListener(v -> {
     String text = inputText.getText().toString().trim();
