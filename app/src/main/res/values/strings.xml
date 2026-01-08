@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Shorts Generator</string>
+
+<string-array name="speed_array">
+    <item>Медленно</item>
+    <item>Нормально</item>
+    <item>Быстро</item>
+</string-array>
+
+<string-array name="style_array">
+    <item>Классика</item>
+    <item>Мотивация</item>
+    <item>Драма</item>
+    <item>Юмор</item>
+</string-array>
 </resources>
