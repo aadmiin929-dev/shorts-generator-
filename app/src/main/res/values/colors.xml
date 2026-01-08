@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background">#F5F5F5</color>
-    <color name="primary">#008577</color>
-    <color name="primary_dark">#00574B</color>
+    <!-- Основной цвет -->
+    <color name="primary">#6200EE</color>
+
+    <!-- Светло-серый (для кнопок и hint) -->
+    <color name="gray_light">#E0E0E0</color>
+
+    <!-- Тёмный текст -->
     <color name="text_primary">#212121</color>
-    <color name="button">#E0E0E0</color>
+
+    <!-- Белый -->
+    <color name="white">#FFFFFF</color>
 
 </resources>
