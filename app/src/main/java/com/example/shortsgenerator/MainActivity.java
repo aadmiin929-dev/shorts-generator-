@@ -12,6 +12,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Environment;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -117,41 +121,59 @@ public class MainActivity extends AppCompatActivity {
     // ===== SMART SRT =====
 
     private File generateSmartSrt(String text, String speed) {
-        try {
-            File file = new File(getFilesDir(), "subtitles.srt");
-            StringBuilder srt = new StringBuilder();
+    try {
+        File downloadsDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS
+        );
 
-            float duration;
-            switch (speed) {
-                case "Медленно": duration = 3.0f; break;
-                case "Быстро": duration = 1.2f; break;
-                default: duration = 2.0f;
-            }
+        String timeStamp = new SimpleDateFormat(
+                "yyyy-MM-dd_HH-mm-ss",
+                Locale.getDefault()
+        ).format(new Date());
 
-            List<String> lines = splitSmart(text);
-            float time = 0f;
-            int index = 1;
+        File file = new File(downloadsDir, "shorts_" + timeStamp + ".srt");
 
-            for (String line : lines) {
-                srt.append(index++).append("\n");
-                srt.append(formatTime(time))
-                        .append(" --> ")
-                        .append(formatTime(time + duration))
-                        .append("\n");
-                srt.append(line).append("\n\n");
-                time += duration;
-            }
-
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(srt.toString().getBytes());
-            fos.close();
-            return file;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        float duration;
+        switch (speed) {
+            case "Медленно": duration = 3.0f; break;
+            case "Быстро": duration = 1.2f; break;
+            default: duration = 2.0f;
         }
+
+        StringBuilder srt = new StringBuilder();
+        String[] parts = text.split("[.!?]");
+        float time = 0f;
+        int index = 1;
+
+        for (String part : parts) {
+            part = part.trim();
+            if (part.isEmpty()) continue;
+
+            srt.append(index++).append("\n");
+            srt.append(formatTime(time))
+               .append(" --> ")
+               .append(formatTime(time + duration))
+               .append("\n");
+            srt.append(part).append("\n\n");
+
+            time += duration;
+        }
+
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(srt.toString().getBytes());
+        fos.close();
+        Toast.makeText(
+    this,
+    "SRT сохранён в Загрузки",
+    Toast.LENGTH_SHORT
+).show();
+        return file;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
     }
+}
 
     // ===== TIKTOK PRO SRT =====
 
