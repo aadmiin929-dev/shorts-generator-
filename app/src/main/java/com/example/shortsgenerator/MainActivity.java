@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
         EditText inputText = findViewById(R.id.inputText);
         TextView resultText = findViewById(R.id.resultText);
-        Button generateButton = findViewById(R.id.generateButton);
-        Button srtButton = findViewById(R.id.srtButton);
-        Button shareButton = findViewById(R.id.shareButton);
+        Button generateButton = findViewById(R.id.btnGenerate);
+        Button srtButton = findViewById(R.id.btnSrt);
+        Button shareButton = findViewById(R.id.btnShare);
         Spinner speedSpinner = findViewById(R.id.speedSpinner);
         Spinner styleSpinner = findViewById(R.id.styleSpinner);
 
