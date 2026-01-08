@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Разрешаем доступ к файлам приложения -->
-    <external-files-path
-        name="external_files"
+    <!-- доступ к filesDir -->
+    <files-path
+        name="internal_files"
         path="." />
+
+    <!-- доступ к Download -->
+    <external-path
+        name="downloads"
+        path="Download/" />
 
 </paths>
