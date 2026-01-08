@@ -19,17 +19,15 @@
 
     <!-- INPUT -->
     <EditText
-        android:id="@+id/inputText"
-        android:hint="Вставь текст для Shorts / Reels / TikTok"
-        android:hintTextColor="#888888"
-        android:textColor="#FFFFFF"
-        android:minLines="4"
-        android:gravity="top"
-        android:padding="12dp"
-        android:background="@android:drawable/edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+    android:id="@+id/inputText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Вставь текст для Shorts / Reels / TikTok"
+    android:minLines="3"
+    android:gravity="top|start"
+    android:inputType="textMultiLine"
+    android:textColorHint="@color/gray_light" />
+   
     <!-- SPINNERS -->
     <Spinner
         android:id="@+id/speedSpinner"
