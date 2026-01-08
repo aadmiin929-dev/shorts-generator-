@@ -1,5 +1,5 @@
       package com.example.shortsgenerator;
-
+import android.widget.Spinner;
 import android.os.Bundle;
 import android.widget.*;
 import android.content.*;
@@ -48,25 +48,23 @@ public class MainActivity extends AppCompatActivity {
         ));
 
         generateButton.setOnClickListener(v -> {
-            resultText.setText(inputText.getText().toString());
-        });
 
-        srtButton.setOnClickListener(v -> {
-            String text = inputText.getText().toString().trim();
-            if (text.isEmpty()) {
-                Toast.makeText(this, "Нет текста", Toast.LENGTH_SHORT).show();
-                return;
-            }
+    String text = inputText.getText().toString().trim();
+    String speed = speedSpinner.getSelectedItem().toString();
+    String style = styleSpinner.getSelectedItem().toString();
 
-            String speed = speedSpinner.getSelectedItem().toString();
-            String style = styleSpinner.getSelectedItem().toString();
+    if (text.isEmpty()) {
+        resultText.setText("❗ Вставь текст");
+        return;
+    }
 
-            String srt = videoPlan.generateSrt(text, speed, style, this);
+    String result =
+            "🎬 Стиль: " + style + "\n" +
+            "⏱ Скорость: " + speed + "\n\n" +
+            text;
 
-            resultText.setText(srt);
-            lastSrtFile = videoPlan.getLastFile();
-        });
-
+    resultText.setText(result);
+});
         shareButton.setOnClickListener(v -> {
             if (lastSrtFile == null || !lastSrtFile.exists()) {
                 Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
