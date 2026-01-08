@@ -65,7 +65,40 @@ public class MainActivity extends AppCompatActivity {
                     );
                 })
         );
+private File generateSrt(String text) {
+    try {
+        File downloadsDir =
+                android.os.Environment.getExternalStoragePublicDirectory(
+                        android.os.Environment.DIRECTORY_DOWNLOADS
+                );
 
+        File file = new File(downloadsDir, "shorts_subtitles.srt");
+
+        StringBuilder srt = new StringBuilder();
+        String[] lines = text.split("[.!?]\\s*");
+        int time = 0;
+
+        for (int i = 0; i < lines.length; i++) {
+            srt.append(i + 1).append("\n");
+            srt.append(formatTime(time))
+               .append(" --> ")
+               .append(formatTime(time + 2))
+               .append("\n");
+            srt.append(lines[i].trim()).append("\n\n");
+            time += 2;
+        }
+
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(srt.toString().getBytes());
+        fos.close();
+
+        return file;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
         // Create SRT
         srtButton.setOnClickListener(v ->
                 animateClick(v, () -> {
