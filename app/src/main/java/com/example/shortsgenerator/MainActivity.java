@@ -65,26 +65,24 @@ public class MainActivity extends AppCompatActivity {
 
         // Create SRT
         srtButton.setOnClickListener(v -> {
-            String text = inputText.getText().toString().trim();
+    String text = inputText.getText().toString().trim();
+    String style = styleSpinner.getSelectedItem().toString();
 
-            if (text.isEmpty()) {
-                Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
-                return;
-            }
+    if (text.isEmpty()) {
+        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+        return;
+    }
 
-            lastSrtFile = generateSrt(text);
+    if (style.equals("TikTok PRO")) {
+        lastSrtFile = generateTikTokSrt(text);
+    } else {
+        lastSrtFile = generateSrt(text); // обычный SRT
+    }
 
-            if (lastSrtFile != null) {
-                Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Share SRT
-        shareButton.setOnClickListener(v -> {
-            if (lastSrtFile == null || !lastSrtFile.exists()) {
-                Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-                return;
-            }
+    if (lastSrtFile != null) {
+        Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
+    }
+});
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("application/x-subrip");
@@ -132,6 +130,46 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+private File generateTikTokSrt(String text) {
+    try {
+        File file = new File(getFilesDir(), "subtitles_tiktok.srt");
+        StringBuilder srt = new StringBuilder();
+
+        String[] words = text.split("\\s+");
+        int timeMs = 0;
+        int index = 1;
+
+        for (String word : words) {
+            if (word.trim().isEmpty()) continue;
+
+            srt.append(index).append("\n");
+            srt.append(formatTimeMs(timeMs))
+               .append(" --> ")
+               .append(formatTimeMs(timeMs + 500))
+               .append("\n");
+            srt.append(word.toUpperCase()).append("\n\n");
+
+            timeMs += 500;
+            index++;
+        }
+
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(srt.toString().getBytes());
+        fos.close();
+
+        return file;
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+private String formatTimeMs(int ms) {
+    int seconds = ms / 1000;
+    int millis = ms % 1000;
+    return String.format("00:00:%02d,%03d", seconds, millis);
+}
+
 
     private String formatTime(int seconds) {
         return String.format("00:00:%02d,000", seconds);
