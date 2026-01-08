@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#FFFFFF"
+    android:background="#0F0F0F"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- TITLE -->
     <TextView
-        android:text="Shorts Generator"
+        android:text="Shorts Generator PRO"
         android:textSize="26sp"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:layout_marginBottom="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <!-- INPUT -->
     <EditText
         android:id="@+id/inputText"
         android:hint="Вставь текст для Shorts / Reels / TikTok"
+        android:hintTextColor="#888888"
+        android:textColor="#FFFFFF"
         android:minLines="4"
         android:gravity="top"
         android:padding="12dp"
@@ -27,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- Spinners -->
+    <!-- SPINNERS -->
     <Spinner
         android:id="@+id/speedSpinner"
         android:layout_marginTop="12dp"
@@ -40,33 +43,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- Buttons -->
+    <!-- BUTTONS -->
     <Button
         android:id="@+id/btnGenerate"
-        android:text="СГЕНЕРИРОВАТЬ"
+        android:text="🚀 СГЕНЕРИРОВАТЬ"
         android:textSize="16sp"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#6200EE"
+        android:backgroundTint="#7C4DFF"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp" />
+        android:layout_height="54dp" />
 
     <Button
         android:id="@+id/btnSrt"
-        android:text="СОЗДАТЬ SRT"
+        android:text="🎬 СОЗДАТЬ SRT"
         android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1E1E1E"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp" />
+        android:layout_height="54dp" />
 
     <Button
         android:id="@+id/btnShare"
-        android:text="ПОДЕЛИТЬСЯ"
+        android:text="📤 ПОДЕЛИТЬСЯ"
         android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#1E1E1E"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp" />
+        android:layout_height="54dp" />
 
+    <!-- RESULT -->
     <ScrollView
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
@@ -76,7 +84,7 @@
         <TextView
             android:id="@+id/resultText"
             android:textSize="14sp"
-            android:textColor="#000000"
+            android:textColor="#DDDDDD"
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
