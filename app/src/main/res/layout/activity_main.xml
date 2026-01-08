@@ -4,64 +4,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/title"
         android:text="Shorts Generator"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold"
+        android:textColor="#000000"
         android:layout_marginBottom="12dp"
-        android:textColor="@color/text_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/inputText"
         android:hint="Вставь текст для Shorts / Reels / TikTok"
-        android:minLines="3"
-        android:gravity="top|start"
-        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:gravity="top"
+        android:padding="12dp"
+        android:background="@android:drawable/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.google.android.material.button.MaterialButton
+    <!-- Spinners -->
+    <Spinner
+        android:id="@+id/speedSpinner"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/styleSpinner"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Buttons -->
+    <Button
         android:id="@+id/btnGenerate"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
         android:text="СГЕНЕРИРОВАТЬ"
-        android:textAllCaps="false"
         android:textSize="16sp"
-        app:cornerRadius="16dp"
-        app:backgroundTint="@color/primary"
-        android:textColor="@android:color/white" />
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#6200EE"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btnSrt"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
         android:text="СОЗДАТЬ SRT"
-        android:textAllCaps="false"
         android:textSize="16sp"
-        app:cornerRadius="16dp"
-        app:backgroundTint="@color/button"
-        android:textColor="@color/text_primary" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnShare"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="52dp" />
+
+    <Button
+        android:id="@+id/btnShare"
         android:text="ПОДЕЛИТЬСЯ"
-        android:textAllCaps="false"
         android:textSize="16sp"
-        app:cornerRadius="16dp"
-        app:backgroundTint="@color/button"
-        android:textColor="@color/text_primary" />
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp" />
 
     <ScrollView
         android:layout_marginTop="16dp"
@@ -72,21 +76,10 @@
         <TextView
             android:id="@+id/resultText"
             android:textSize="14sp"
+            android:textColor="#000000"
             android:padding="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </ScrollView>
-
-    <Spinner
-    android:id="@+id/speedSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:entries="@array/speed_array"/>
-
-<Spinner
-    android:id="@+id/styleSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:entries="@array/style_array"/>
 
 </LinearLayout>
