@@ -2,20 +2,19 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    ...
->
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    
     <TextView
         android:id="@+id/title"
         android:text="Shorts Generator"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="12dp"
+        android:textColor="@color/text_primary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -29,40 +28,41 @@
         android:layout_height="wrap_content" />
 
     <com.google.android.material.button.MaterialButton
-    android:id="@+id/btnGenerate"
-    android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_marginTop="24dp"
-    android:text="СГЕНЕРИРОВАТЬ"
-    android:textAllCaps="false"
-    android:textSize="16sp"
-    app:cornerRadius="16dp"
-    app:backgroundTint="@color/primary"
-    android:textColor="@android:color/white" />
+        android:id="@+id/btnGenerate"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:text="СГЕНЕРИРОВАТЬ"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/primary"
+        android:textColor="@android:color/white" />
 
-<com.google.android.material.button.MaterialButton
-    android:id="@+id/btnSrt"
-    android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_marginTop="12dp"
-    android:text="СОЗДАТЬ SRT"
-    android:textAllCaps="false"
-    android:textSize="16sp"
-    app:cornerRadius="16dp"
-    app:backgroundTint="@color/gray_light"
-    android:textColor="@android:color/black" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSrt"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:text="СОЗДАТЬ SRT"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/button"
+        android:textColor="@color/text_primary" />
 
-<com.google.android.material.button.MaterialButton
-    android:id="@+id/btnShare"
-    android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:layout_marginTop="12dp"
-    android:text="ПОДЕЛИТЬСЯ"
-    android:textAllCaps="false"
-    android:textSize="16sp"
-    app:cornerRadius="16dp"
-    app:backgroundTint="@color/gray_light"
-    android:textColor="@android:color/black" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnShare"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
+        android:text="ПОДЕЛИТЬСЯ"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/button"
+        android:textColor="@color/text_primary" />
+
     <ScrollView
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
@@ -75,16 +75,16 @@
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-   </ScrollView>
+    </ScrollView>
 
-<Spinner
-    android:id="@+id/speedSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    <Spinner
+        android:id="@+id/speedSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-<Spinner
-    android:id="@+id/styleSpinner"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    <Spinner
+        android:id="@+id/styleSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
