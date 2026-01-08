@@ -8,9 +8,8 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/title"
         android:text="Shorts Generator"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="12dp"
         android:layout_width="wrap_content"
@@ -19,7 +18,7 @@
     <EditText
         android:id="@+id/inputText"
         android:hint="Вставь текст для Shorts / Reels / TikTok"
-        android:minLines="3"
+        android:minLines="4"
         android:gravity="top|start"
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
@@ -39,24 +38,24 @@
 
     <Button
         android:id="@+id/btnGenerate"
-        android:text="СГЕНЕРИРОВАТЬ"
+        android:text="ПРЕДПРОСМОТР"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="48dp"/>
 
     <Button
         android:id="@+id/btnSrt"
         android:text="СОЗДАТЬ SRT"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="48dp"/>
 
     <Button
         android:id="@+id/btnShare"
         android:text="ПОДЕЛИТЬСЯ"
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="48dp"/>
 
     <ScrollView
         android:layout_marginTop="12dp"
@@ -67,7 +66,6 @@
         <TextView
             android:id="@+id/resultText"
             android:textSize="14sp"
-            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </ScrollView>
