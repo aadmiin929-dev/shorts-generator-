@@ -80,7 +80,7 @@ shareButton.setOnClickListener(v -> {
                     lastSrtFile
             )
     );
-    
+});
         // Create SRT
         srtButton.setOnClickListener(v -> {
     String text = inputText.getText().toString().trim();
