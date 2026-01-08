@@ -3,6 +3,7 @@ package com.example.shortsgenerator;
 import android.os.Bundle;
 import android.widget.*;
 import android.content.*;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -46,69 +47,71 @@ public class MainActivity extends AppCompatActivity {
         styleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         styleSpinner.setAdapter(styleAdapter);
 
+        // Generate preview
         generateButton.setOnClickListener(v ->
-        animateClick(v, () -> {
+                animateClick(v, () -> {
+                    String text = inputText.getText().toString().trim();
 
-            String text = inputText.getText().toString().trim();
+                    if (text.isEmpty()) {
+                        resultText.setText("❗ Вставь текст");
+                        return;
+                    }
 
-            if (text.isEmpty()) {
-                resultText.setText("❗ Вставь текст");
-                return;
-            }
+                    String result =
+                            "🎬 Стиль: " + styleSpinner.getSelectedItem() + "\n" +
+                            "⏱ Скорость: " + speedSpinner.getSelectedItem() + "\n\n" +
+                            text;
 
-            String result =
-                    "🎬 Стиль: " + styleSpinner.getSelectedItem() + "\n" +
-                    "⏱ Скорость: " + speedSpinner.getSelectedItem() + "\n\n" +
-                    text;
+                    resultText.setText(result);
+                })
+        );
 
-            resultText.setText(result);
-        })
-);
         // Create SRT
         srtButton.setOnClickListener(v ->
-        animateClick(v, () -> {
-            String text = inputText.getText().toString().trim();
-            String style = styleSpinner.getSelectedItem().toString();
+                animateClick(v, () -> {
+                    String text = inputText.getText().toString().trim();
+                    String style = styleSpinner.getSelectedItem().toString();
 
-            if (text.isEmpty()) {
-                Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                    if (text.isEmpty()) {
+                        Toast.makeText(this, "Нет текста для SRT", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-            if (style.equals("TikTok PRO")) {
-                lastSrtFile = generateTikTokSrt(text);
-            } else {
-                lastSrtFile = generateSrt(text);
-            }
+                    if (style.equals("TikTok PRO")) {
+                        lastSrtFile = generateTikTokSrt(text);
+                    } else {
+                        lastSrtFile = generateSrt(text);
+                    }
 
-            if (lastSrtFile != null) {
-                Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
-            }
-        })
-);
+                    if (lastSrtFile != null) {
+                        Toast.makeText(this, "SRT создан", Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
 
         // Share SRT
         shareButton.setOnClickListener(v ->
-        animateClick(v, () -> {
-            if (lastSrtFile == null || !lastSrtFile.exists()) {
-                Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                animateClick(v, () -> {
+                    if (lastSrtFile == null || !lastSrtFile.exists()) {
+                        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("application/x-subrip");
-            intent.putExtra(
-                    Intent.EXTRA_STREAM,
-                    FileProvider.getUriForFile(
-                            this,
-                            getPackageName() + ".provider",
-                            lastSrtFile
-                    )
-            );
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(intent, "Поделиться SRT"));
-        })
-);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("application/x-subrip");
+                    intent.putExtra(
+                            Intent.EXTRA_STREAM,
+                            FileProvider.getUriForFile(
+                                    this,
+                                    getPackageName() + ".provider",
+                                    lastSrtFile
+                            )
+                    );
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(Intent.createChooser(intent, "Поделиться SRT"));
+                })
+        );
+    }
 
     // ===== SRT LOGIC =====
 
@@ -157,11 +160,11 @@ public class MainActivity extends AppCompatActivity {
                 srt.append(index).append("\n");
                 srt.append(formatTimeMs(timeMs))
                         .append(" --> ")
-                        .append(formatTimeMs(timeMs + 500))
+                        .append(formatTimeMs(timeMs + 450))
                         .append("\n");
                 srt.append(word.toUpperCase()).append("\n\n");
 
-                timeMs += 500;
+                timeMs += 450;
                 index++;
             }
 
@@ -186,32 +189,21 @@ public class MainActivity extends AppCompatActivity {
         int millis = ms % 1000;
         return String.format("00:00:%02d,%03d", seconds, millis);
     }
+
+    // ===== CLICK ANIMATION =====
+    private void animateClick(View view, Runnable action) {
+        view.animate()
+                .scaleX(0.95f)
+                .scaleY(0.95f)
+                .setDuration(80)
+                .withEndAction(() ->
+                        view.animate()
+                                .scaleX(1f)
+                                .scaleY(1f)
+                                .setDuration(80)
+                                .withEndAction(action)
+                                .start()
+                )
+                .start();
+    }
 }
-
-private void animateClick(View view, Runnable action) {
-    view.animate()
-            .scaleX(0.95f)
-            .scaleY(0.95f)
-            .setDuration(80)
-            .withEndAction(() -> view.animate()
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(80)
-                    .withEndAction(action)
-                    .start())
-            .start();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
