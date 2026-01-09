@@ -5,20 +5,19 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <!-- Main background -->
+    <!-- App background -->
     <color name="bg_dark">#0F0F14</color>
 
-    <!-- Cards / Inputs -->
+    <!-- Cards / inputs -->
     <color name="card_dark">#1C1C24</color>
 
-    <!-- Accent / Purple -->
+    <!-- Primary (purple) -->
     <color name="primary">#6A00FF</color>
-    <color name="primary_dark">#4B00B5</color>
     <color name="purple">#6A00FF</color>
     <color name="purple_dark">#4B00B5</color>
 
     <!-- Text -->
     <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#A1A1AA</color>
+    <color name="text_secondary">#B0B0B0</color>
 
 </resources>
