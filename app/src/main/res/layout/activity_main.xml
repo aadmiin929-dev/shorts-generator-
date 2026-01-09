@@ -9,7 +9,7 @@
 
     <TextView
         android:text="Shorts Generator"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/text_primary"
         android:layout_marginBottom="12dp"
@@ -19,11 +19,11 @@
     <EditText
         android:id="@+id/inputText"
         android:hint="Вставь текст для Shorts / Reels / TikTok"
-        android:textColorHint="@color/text_secondary"
         android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_secondary"
         android:minLines="4"
+        android:gravity="top|start"
         android:background="@drawable/bg_input"
-        android:padding="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -44,29 +44,29 @@
     <Button
         android:id="@+id/btnGenerate"
         android:text="ПРЕДПРОСМОТР"
-        android:layout_marginTop="16dp"
+        android:textColor="@color/white"
         android:background="@drawable/bg_button"
-        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp"/>
+        android:layout_height="48dp"/>
 
     <Button
         android:id="@+id/btnSrt"
         android:text="СОЗДАТЬ SRT"
-        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
         android:background="@drawable/bg_button"
-        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="52dp"/>
+        android:layout_height="48dp"/>
 
     <Button
         android:id="@+id/btnShare"
         android:text="ПОДЕЛИТЬСЯ"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_button"
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_button_secondary"
-        android:textColor="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="52dp"/>
+        android:layout_height="48dp"/>
 
     <ScrollView
         android:layout_marginTop="12dp"
@@ -77,7 +77,7 @@
         <TextView
             android:id="@+id/resultText"
             android:textSize="14sp"
-            android:textColor="@color/text_secondary"
+            android:textColor="@color/text_primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </ScrollView>
