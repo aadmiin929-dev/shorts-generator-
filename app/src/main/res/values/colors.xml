@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Основные -->
+    <!-- Основные цвета -->
     <color name="purple">#6A00FF</color>
     <color name="purple_dark">#4B00B5</color>
 
     <!-- Фон -->
-    <color name="bg_dark">#0F0F14</color>
-    <color name="card_dark">#1A1A22</color>
+    <color name="bg_dark">#121212</color>
+    <color name="card_dark">#1E1E1E</color>
 
     <!-- Текст -->
     <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B0B0C3</color>
+    <color name="text_secondary">#B3B3B3</color>
 
     <!-- Системные -->
-    <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>
