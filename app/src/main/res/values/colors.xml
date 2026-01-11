@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Основные -->
-    <color name="purple">#6A00FF</color>
-    <color name="purple_dark">#4E00C2</color>
+    <!-- Primary -->
+    <color name="primary">#6A00FF</color>
+    <color name="primary_dark">#4E00C2</color>
 
-    <!-- Фон -->
-    <color name="bg_dark">#0E0E0E</color>
-    <color name="card_dark">#1A1A1A</color>
+    <!-- Background -->
+    <color name="bg">#0E0E0E</color>
+    <color name="card">#1A1A1A</color>
 
-    <!-- Текст -->
+    <!-- Text -->
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#B3B3B3</color>
 
-    <!-- Кнопки -->
+    <!-- Buttons -->
     <color name="button_primary">#6A00FF</color>
     <color name="button_secondary">#4E00C2</color>
     <color name="button_text">#FFFFFF</color>
