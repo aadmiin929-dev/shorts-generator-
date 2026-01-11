@@ -1,5 +1,5 @@
 package com.example.shortsgenerator
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,14 +8,14 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class MainActivity : AppCompatActivity() {
-override fun onCreate(savedInstanceState: Bundle?) {
-    installSplashScreen()
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-}
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        // SplashScreen (Android 12+)
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -31,8 +31,13 @@ override fun onCreate(savedInstanceState: Bundle?) {
                 textCounter.text = "$count символов"
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) {}
+
+            override fun onTextChanged(
+                s: CharSequence?, start: Int, before: Int, count: Int
+            ) {}
         })
 
         // 🎬 Генерация SRT
