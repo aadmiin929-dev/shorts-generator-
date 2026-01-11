@@ -10,16 +10,9 @@
         <item name="android:textColorSecondary">@color/text_secondary</item>
     </style>
 
-    <!-- Splash Screen (Android 12+) -->
-    <style name="Theme.ShortsGenerator.Splash" parent="Theme.SplashScreen">
-        <!-- Фон сплэша -->
-        <item name="windowSplashScreenBackground">@color/purple</item>
-
-        <!-- Иконка -->
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-
-        <!-- После сплэша -->
-        <item name="postSplashScreenTheme">@style/Theme.ShortsGenerator</item>
+    <!-- Splash ТЕМА (БЕЗ Android 12 API) -->
+    <style name="Theme.ShortsGenerator.Splash" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
 </resources>
