@@ -2,13 +2,11 @@
 <resources>
 
     <!-- Основная тема приложения -->
-    <style name="Theme.ShortsGenerator" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorSecondary">@color/purple_dark</item>
-        <item name="android:windowBackground">@color/bg_dark</item>
-        <item name="android:textColorPrimary">@color/text_primary</item>
-        <item name="android:textColorSecondary">@color/text_secondary</item>
-    </style>
+    <style name="Theme.ShortsGenerator.Splash" parent="Theme.SplashScreen">
+    <item name="windowSplashScreenBackground">@color/purple</item>
+    <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+    <item name="postSplashScreenTheme">@style/Theme.ShortsGenerator</item>
+</style>
 
     <!-- Splash ТЕМА (БЕЗ Android 12 API) -->
     <style name="Theme.ShortsGenerator.Splash" parent="Theme.Material3.Dark.NoActionBar">
