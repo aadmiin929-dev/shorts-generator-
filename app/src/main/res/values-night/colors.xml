@@ -1,17 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- OLD -->
     <color name="purple">#8B5CFF</color>
     <color name="purple_dark">#6A00FF</color>
     <color name="bg_dark">#000000</color>
 
-    <!-- NEW -->
     <color name="primary">#8B5CFF</color>
     <color name="primary_dark">#6A00FF</color>
 
     <color name="bg">#000000</color>
     <color name="card">#121212</color>
+    <color name="card_dark">#121212</color>
 
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#9E9E9E</color>
