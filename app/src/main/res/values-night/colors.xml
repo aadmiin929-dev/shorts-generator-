@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Material / primary -->
     <color name="primary">#6A00FF</color>
-    <color name="primary_dark">#4A00CC</color>
+    <color name="primary_dark">#4B00B5</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-
-    <color name="bg_dark">#0F0F14</color>
-    <color name="card_dark">#1A1A22</color>
-
+    <!-- App colors -->
     <color name="purple">#6A00FF</color>
-    <color name="purple_dark">#4A00CC</color>
+    <color name="purple_dark">#4B00B5</color>
+
+    <!-- Background -->
+    <color name="bg_dark">#121212</color>
+    <color name="card_dark">#1E1E1E</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B3B3B3</color>
+
+    <!-- System -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>
