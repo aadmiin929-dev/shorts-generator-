@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Material / primary -->
-    <color name="primary">#6A00FF</color>
-    <color name="primary_dark">#4B00B5</color>
-
-    <!-- App colors -->
+    <!-- Основные -->
     <color name="purple">#6A00FF</color>
-    <color name="purple_dark">#4B00B5</color>
+    <color name="purple_dark">#4E00C2</color>
 
-    <!-- Background -->
-    <color name="bg_dark">#0F0F1A</color>
-    <color name="card_dark">#1E1E1E</color>
+    <!-- Фон -->
+    <color name="bg_dark">#0E0E0E</color>
+    <color name="card_dark">#1A1A1A</color>
 
-    <!-- Text -->
+    <!-- Текст -->
     <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#B0B0C3</color>
+    <color name="text_secondary">#B3B3B3</color>
 
-    <!-- System -->
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
+    <!-- Кнопки -->
+    <color name="button_primary">#6A00FF</color>
+    <color name="button_secondary">#4E00C2</color>
+    <color name="button_text">#FFFFFF</color>
 
 </resources>
