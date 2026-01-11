@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Primary -->
+    <!-- OLD (для совместимости, чтобы билд прошёл) -->
+    <color name="purple">#6A00FF</color>
+    <color name="purple_dark">#4E00C2</color>
+    <color name="bg_dark">#0E0E0E</color>
+
+    <!-- NEW -->
     <color name="primary">#6A00FF</color>
     <color name="primary_dark">#4E00C2</color>
 
-    <!-- Background -->
     <color name="bg">#0E0E0E</color>
     <color name="card">#1A1A1A</color>
 
-    <!-- Text -->
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#B3B3B3</color>
 
-    <!-- Buttons -->
     <color name="button_primary">#6A00FF</color>
     <color name="button_secondary">#4E00C2</color>
     <color name="button_text">#FFFFFF</color>
