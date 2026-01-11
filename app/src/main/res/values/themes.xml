@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Основная тема -->
-    <style name="Theme.ShortsGenerator" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/bg_dark</item>
+    <!-- Основная тема приложения -->
+    <style name="Theme.ShortsGenerator" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#6A00FF</item>
+        <item name="colorPrimaryVariant">#4A00CC</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
     </style>
 
-    <!-- Splash Screen -->
-    <style name="Theme.ShortsGenerator.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/bg_dark</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenIconBackgroundColor">@color/primary</item>
-        <item name="postSplashScreenTheme">@style/Theme.ShortsGenerator</item>
+    <!-- Splash Screen (без Android 12 API) -->
+    <style name="Theme.ShortsGenerator.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
 </resources>
