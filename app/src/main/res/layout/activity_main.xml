@@ -1,97 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/bg_dark"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="20dp">
 
-    <!-- Title -->
-    <TextView
-        android:text="Shorts Generator"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:layout_marginBottom="4dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:text="Subtitles for Shorts · Reels · TikTok"
-        android:textColor="@color/text_secondary"
-        android:textSize="14sp"
-        android:layout_marginBottom="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <!-- Input Card -->
-    <EditText
-        android:id="@+id/inputText"
-        android:hint="Вставь текст..."
-        android:textColorHint="@color/text_secondary"
-        android:textColor="@color/text_primary"
-        android:background="@android:color/transparent"
-        android:padding="12dp"
-        android:minLines="5"
-        android:gravity="top"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <!-- Speed -->
-    <Spinner
-        android:id="@+id/speedSpinner"
-        android:layout_marginTop="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- Style -->
-    <Spinner
-        android:id="@+id/styleSpinner"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- Buttons -->
-    <Button
-        android:id="@+id/btnGenerate"
-        android:text="ПРЕДПРОСМОТР"
-        android:textColor="@color/text_primary"
-        android:backgroundTint="@color/button_secondary"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"/>
-
-    <Button
-        android:id="@+id/btnSrt"
-        android:text="СОЗДАТЬ SRT"
-        android:textColor="@color/text_primary"
-        android:backgroundTint="@color/purple"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"/>
-
-    <Button
-        android:id="@+id/btnShare"
-        android:text="ПОДЕЛИТЬСЯ"
-        android:textColor="@color/text_primary"
-        android:backgroundTint="@color/button_secondary"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"/>
-
-    <!-- Result -->
-    <ScrollView
-        android:layout_marginTop="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
+        <!-- Заголовок -->
         <TextView
-            android:id="@+id/resultText"
+            android:text="Shorts Generator"
+            android:textSize="26sp"
+            android:textStyle="bold"
             android:textColor="@color/text_primary"
-            android:textSize="14sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </ScrollView>
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-</LinearLayout>
+        <!-- Карточка ввода -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:padding="16dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/inputText"
+                android:hint="Вставь текст для Shorts / Reels / TikTok"
+                android:hintTextColor="@color/text_secondary"
+                android:textColor="@color/text_primary"
+                android:minLines="5"
+                android:gravity="top"
+                android:background="@null"
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textCounter"
+                android:text="0 символов"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Кнопки -->
+        <Button
+            android:id="@+id/btnPreview"
+            android:text="ПРЕДПРОСМОТР"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="52dp" />
+
+        <Button
+            android:id="@+id/btnSrt"
+            android:text="СОЗДАТЬ SRT"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/button_secondary"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="52dp" />
+
+        <Button
+            android:id="@+id/btnShare"
+            android:text="ПОДЕЛИТЬСЯ"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/button_secondary"
+            android:textColor="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="52dp" />
+
+    </LinearLayout>
+</ScrollView>
