@@ -28,7 +28,7 @@
     <EditText
         android:id="@+id/inputText"
         android:hint="Вставь текст..."
-        android:hintTextColor="@color/text_secondary"
+        android:textColorHint="@color/text_secondary"
         android:textColor="@color/text_primary"
         android:background="@android:color/transparent"
         android:padding="12dp"
