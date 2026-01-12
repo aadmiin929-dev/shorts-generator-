@@ -31,7 +31,7 @@
             <EditText
                 android:id="@+id/inputText"
                 android:hint="Вставь текст для Shorts / Reels / TikTok"
-                android:hintTextColor="@color/text_secondary"
+                android:textColorHint="@color/text_secondary"
                 android:textColor="@color/text_primary"
                 android:minLines="5"
                 android:gravity="top"
