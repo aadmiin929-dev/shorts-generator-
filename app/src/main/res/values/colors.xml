@@ -5,9 +5,9 @@
     <color name="purple">#6A00FF</color>
     <color name="purple_dark">#4A00B3</color>
 
-    <!-- BACKGROUND -->
-    <color name="bg_dark">#FFFFFF</color>
-    <color name="card_dark">#F4F4F6</color>
+    <!-- BACKGROUND (LIGHT ONLY) -->
+    <color name="bg_light">#FFFFFF</color>
+    <color name="card_light">#F4F4F6</color>
 
     <!-- TEXT -->
     <color name="text_primary">#111111</color>
@@ -21,7 +21,7 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-    <!-- ALIASES (ВАЖНО) -->
+    <!-- ALIAS (ВАЖНО) -->
     <color name="primary">@color/purple</color>
 
 </resources>
