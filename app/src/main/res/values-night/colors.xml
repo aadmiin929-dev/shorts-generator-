@@ -6,8 +6,8 @@
     <color name="purple_dark">#4A00B3</color>
 
     <!-- Фон -->
-    <color name="bg_dark">#0F0F0F</color>
-    <color name="card_dark">#1C1C1E</color>
+    <color name="bg_dark">#000000</color>
+    <color name="card_dark">#14141A</color>
 
     <!-- Текст -->
     <color name="text_primary">#FFFFFF</color>
@@ -15,7 +15,7 @@
 
     <!-- Кнопки -->
     <color name="button_primary">#6A00FF</color>
-    <color name="button_secondary">#2A2A2E</color>
+    <color name="button_secondary">#9A9A9A</color>
 
     <!-- Служебные -->
     <color name="white">#FFFFFF</color>
