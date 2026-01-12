@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Основные -->
-    <color name="primary">#6A00FF</color>
-    <color name="primary_dark">#4A00B8</color>
-    <color name="accent">#FF3D81</color>
+    <!-- Brand -->
+    <color name="purple">#6A00FF</color>
+    <color name="purple_dark">#4A00B3</color>
 
-    <!-- Фон -->
+    <!-- Backgrounds -->
     <color name="bg_dark">#0F0F14</color>
     <color name="card_dark">#1C1C24</color>
 
-    <!-- Текст -->
+    <!-- Text -->
     <color name="text_primary">#FFFFFF</color>
     <color name="text_secondary">#B3B3B3</color>
 
-    <!-- Кнопки -->
+    <!-- Buttons -->
     <color name="button_primary">#6A00FF</color>
     <color name="button_secondary">#2A2A35</color>
 
-    <!-- Прочее -->
+    <!-- System -->
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 
 </resources>
