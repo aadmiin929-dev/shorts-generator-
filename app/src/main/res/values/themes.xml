@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Основная тема -->
-    <style name="Theme.ShortsGenerator" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/bg_dark</item>
-        <item name="android:statusBarColor">@color/bg_dark</item>
-        <item name="android:navigationBarColor">@color/bg_dark</item>
-        <item name="android:textColor">@color/text_primary</item>
+    <!-- Основная светлая тема -->
+    <style name="Theme.ShortsGenerator" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+
+        <item name="android:windowBackground">@color/bg_light</item>
     </style>
 
-    <!-- Splash -->
-    <style name="Theme.ShortsGenerator.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/purple</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="postSplashScreenTheme">@style/Theme.ShortsGenerator</item>
+    <!-- Splash (ТОЖЕ СВЕТЛЫЙ) -->
+    <style name="Theme.ShortsGenerator.Splash" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/bg_light</item>
     </style>
 
 </resources>
