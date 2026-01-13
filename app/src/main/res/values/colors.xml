@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base -->
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-
     <!-- Backgrounds -->
-    <color name="bg_light">#F5F6FA</color>
+    <color name="bg_light">#F6F7FB</color>
     <color name="card_light">#FFFFFF</color>
 
-    <!-- Primary -->
-    <color name="primary">#6A00FF</color>
-    <color name="primary_dark">#4A00B3</color>
-
     <!-- Text -->
-    <color name="text_primary">#1C1C1E</color>
-    <color name="text_secondary">#6E6E73</color>
-    <color name="hint">#9E9E9E</color>
+    <color name="text_primary">#111111</color>
+    <color name="text_secondary">#777777</color>
+    <color name="hint">#AAAAAA</color>
 
     <!-- Buttons -->
+    <color name="primary">#6A00FF</color>
     <color name="button_text">#FFFFFF</color>
 
 </resources>
