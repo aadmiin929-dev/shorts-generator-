@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_light"
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- CARD -->
+        <!-- INPUT CARD -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,12 +19,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Text for Shorts"
-                android:textColor="@color/text_primary"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <EditText
                 android:id="@+id/inputText"
@@ -31,7 +32,7 @@
                 android:layout_height="140dp"
                 android:layout_marginTop="12dp"
                 android:gravity="top"
-                android:hint="Paste your text here"
+                android:hint="Paste text here"
                 android:textColor="@color/text_primary"
                 android:textColorHint="@color/hint"
                 android:background="@android:drawable/edit_text"
@@ -39,59 +40,56 @@
 
             <TextView
                 android:id="@+id/textCounter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:text="0 символов"
+                android:textSize="12sp"
                 android:textColor="@color/text_secondary"
-                android:textSize="12sp"/>
+                android:layout_marginTop="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.button.MaterialButton
-    android:id="@+id/btnSrt"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:layout_marginTop="16dp"
-    android:text="Generate SRT"
-    android:textColor="@color/button_text"
-    android:icon="@drawable/ic_generate"
-    android:iconPadding="8dp"
-    android:backgroundTint="@color/primary"
-    style="@style/Widget.Material3.Button.Filled"/>
+                android:id="@+id/btnSrt"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:text="Generate SRT"
+                android:textColor="@color/button_text"
+                app:icon="@drawable/ic_generate"
+                app:iconPadding="8dp"
+                app:backgroundTint="@color/primary"/>
 
-<com.google.android.material.button.MaterialButton
-    android:id="@+id/btnSave"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:layout_marginTop="8dp"
-    android:text="СОХРАНИТЬ SRT"
-    android:icon="@drawable/ic_save"
-    android:iconPadding="8dp"
-    android:backgroundTint="@color/primary"
-    android:textColor="@color/button_text"
-    style="@style/Widget.Material3.Button.Filled"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:text="Save SRT"
+                app:icon="@drawable/ic_save"
+                app:iconPadding="8dp"
+                app:backgroundTint="@color/primary"
+                android:textColor="@color/button_text"/>
 
-<com.google.android.material.button.MaterialButton
-    android:id="@+id/btnShare"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:layout_marginTop="8dp"
-    android:text="ПОДЕЛИТЬСЯ"
-    android:icon="@drawable/ic_share"
-    android:iconPadding="8dp"
-    android:backgroundTint="@color/primary"
-    android:textColor="@color/button_text"
-    style="@style/Widget.Material3.Button.Filled"/>
-            
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShare"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:text="Share"
+                app:icon="@drawable/ic_share"
+                app:iconPadding="8dp"
+                app:backgroundTint="@color/primary"
+                android:textColor="@color/button_text"/>
+
         </LinearLayout>
 
         <!-- RESULT -->
         <TextView
             android:id="@+id/resultText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/text_primary"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </ScrollView>
