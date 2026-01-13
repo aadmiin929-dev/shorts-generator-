@@ -13,10 +13,36 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val btnShare = findViewById<Button>(R.id.btnShare)
+
+         btnShare.setOnClickListener {
+    val text = resultText.text.toString()
+
+    if (text.isBlank()) {
+        Toast.makeText(this, "Сначала создай SRT", Toast.LENGTH_SHORT).show()
+        return@setOnClickListener
+    }
+
+    val intent = android.content.Intent(android.content.Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(android.content.Intent.EXTRA_TEXT, text)
+    startActivity(android.content.Intent.createChooser(intent, "Поделиться SRT"))
+}
     val splashScreen = installSplashScreen()
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+val btnSave = findViewById<Button>(R.id.btnSave)
 
+btnSave.setOnClickListener {
+    val text = resultText.text.toString()
+
+    if (text.isBlank()) {
+        Toast.makeText(this, "Нет SRT для сохранения", Toast.LENGTH_SHORT).show()
+        return@setOnClickListener
+    }
+
+    saveSrtToFile(text)
+}
     splashScreen.setOnExitAnimationListener { splash ->
         splash.view.animate()
             .alpha(0f)
@@ -104,5 +130,21 @@ class MainActivity : AppCompatActivity() {
             "%02d:%02d:%02d,%03d",
             0, minutes, seconds, millis
         )
+    }
+}
+private fun saveSrtToFile(text: String) {
+    try {
+        val fileName = "subtitles_${System.currentTimeMillis()}.srt"
+        val file = java.io.File(getExternalFilesDir(null), fileName)
+        file.writeText(text)
+
+        Toast.makeText(
+            this,
+            "Сохранено:\n${file.absolutePath}",
+            Toast.LENGTH_LONG
+        ).show()
+
+    } catch (e: Exception) {
+        Toast.makeText(this, "Ошибка сохранения", Toast.LENGTH_SHORT).show()
     }
 }
