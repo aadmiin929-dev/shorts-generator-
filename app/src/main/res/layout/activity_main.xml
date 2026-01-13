@@ -46,30 +46,42 @@
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp"/>
 
-            <Button
-                android:id="@+id/btnSrt"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:text="Generate SRT"
-                android:textColor="@color/button_text"
-                android:backgroundTint="@color/primary"
-                android:drawableStart="@drawable/ic_generate"
-                android:drawablePadding="8dp"/>
+            <com.google.android.material.button.MaterialButton
+    android:id="@+id/btnSrt"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="16dp"
+    android:text="Generate SRT"
+    android:textColor="@color/button_text"
+    android:icon="@drawable/ic_generate"
+    android:iconPadding="8dp"
+    android:backgroundTint="@color/primary"
+    style="@style/Widget.Material3.Button.Filled"/>
 
-          <Button
-                android:id="@+id/btnSave"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="СОХРАНИТЬ SRT"
-                android:layout_marginTop="8dp"/>
-            <Button
-                android:id="@+id/btnShare"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:text="ПОДЕЛИТЬСЯ"
-                android:layout_marginTop="8dp"/>
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/btnSave"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="8dp"
+    android:text="СОХРАНИТЬ SRT"
+    android:icon="@drawable/ic_save"
+    android:iconPadding="8dp"
+    android:backgroundTint="@color/primary"
+    android:textColor="@color/button_text"
+    style="@style/Widget.Material3.Button.Filled"/>
 
+<com.google.android.material.button.MaterialButton
+    android:id="@+id/btnShare"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginTop="8dp"
+    android:text="ПОДЕЛИТЬСЯ"
+    android:icon="@drawable/ic_share"
+    android:iconPadding="8dp"
+    android:backgroundTint="@color/primary"
+    android:textColor="@color/button_text"
+    style="@style/Widget.Material3.Button.Filled"/>
+            
         </LinearLayout>
 
         <!-- RESULT -->
