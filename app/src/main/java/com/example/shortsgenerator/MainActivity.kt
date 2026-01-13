@@ -13,6 +13,18 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+    val splashScreen = installSplashScreen()
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+    splashScreen.setOnExitAnimationListener { splash ->
+        splash.view.animate()
+            .alpha(0f)
+            .setDuration(300)
+            .withEndAction { splash.remove() }
+            .start()
+    }
+
         // SplashScreen (Android 12+)
         installSplashScreen()
 
