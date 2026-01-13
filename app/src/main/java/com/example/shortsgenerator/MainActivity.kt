@@ -13,21 +13,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // SplashScreen (Android 12+)
+        // SplashScreen — СТРОГО ПЕРВОЙ
         installSplashScreen()
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Views
+        // ---- VIEWS ----
         val inputText = findViewById<EditText>(R.id.inputText)
         val textCounter = findViewById<TextView>(R.id.textCounter)
+        val resultText = findViewById<TextView>(R.id.resultText)
+
         val btnGenerate = findViewById<Button>(R.id.btnSrt)
         val btnSave = findViewById<Button>(R.id.btnSave)
         val btnShare = findViewById<Button>(R.id.btnShare)
-        val resultText = findViewById<TextView>(R.id.resultText)
 
-        // 🔢 Счётчик символов
+        // ---- COUNTER ----
         inputText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 textCounter.text = "${s?.length ?: 0} символов"
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // 🎬 Generate SRT
+        // ---- GENERATE SRT ----
         btnGenerate.setOnClickListener {
             val text = inputText.text.toString().trim()
             if (text.isEmpty()) {
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             resultText.text = generateSrt(text)
         }
 
-        // 💾 Save SRT
+        // ---- SAVE ----
         btnSave.setOnClickListener {
             val text = resultText.text.toString()
             if (text.isBlank()) {
@@ -56,14 +56,13 @@ class MainActivity : AppCompatActivity() {
             saveSrtToFile(text)
         }
 
-        // 📤 Share SRT
+        // ---- SHARE ----
         btnShare.setOnClickListener {
             val text = resultText.text.toString()
             if (text.isBlank()) {
                 toast("Сначала создай SRT")
                 return@setOnClickListener
             }
-
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, text)
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ===== SRT GENERATOR =====
+    // ---------- LOGIC ----------
 
     private fun generateSrt(text: String): String {
         val lines = text.lines().map { it.trim() }.filter { it.isNotEmpty() }
@@ -90,10 +89,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun formatTime(ms: Int): String {
-        val seconds = (ms / 1000) % 60
-        val minutes = (ms / 60000) % 60
-        val millis = ms % 1000
-        return String.format("00:%02d:%02d,%03d", minutes, seconds, millis)
+        val s = ms / 1000
+        return String.format("00:%02d:%02d,%03d", s / 60, s % 60, ms % 1000)
     }
 
     private fun saveSrtToFile(text: String) {
@@ -106,7 +103,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun toast(msg: String) {
+    private fun toast(msg: String) =
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
 }
