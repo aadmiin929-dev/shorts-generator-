@@ -1,27 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ОСНОВНАЯ ТЕМА -->
-    <style name="Theme.ShortsGenerator"
-        parent="Theme.Material3.Light.NoActionBar">
-
+    <!-- Основная тема -->
+    <style name="Theme.ShortsGenerator" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorSecondary">@color/primary</item>
-
-        <item name="android:statusBarColor">@color/bg_light</item>
-        <item name="android:navigationBarColor">@color/bg_light</item>
+        <item name="android:statusBarColor">@color/primary</item>
         <item name="android:windowLightStatusBar">true</item>
-
     </style>
 
-    <!-- SPLASH SCREEN (Android 12+) -->
-    <style name="Theme.ShortsGenerator.Splash"
-        parent="Theme.SplashScreen">
-
-        <item name="windowSplashScreenBackground">@color/bg_light</item>
+    <!-- Splash тема -->
+    <style name="Theme.ShortsGenerator.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/Theme.ShortsGenerator</item>
-
     </style>
 
 </resources>
