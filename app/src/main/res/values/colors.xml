@@ -6,13 +6,13 @@
     <color name="card_light">#FFFFFF</color>
 
     <!-- PRIMARY BRAND -->
-    <color name="primary">#4CAF50</color>
+    <color name="primary">#6A00FF</color>
     <color name="primary_dark">#388E3C</color>
 
     <!-- TEXT -->
-    <color name="text_primary">#121212</color>
-    <color name="text_secondary">#6B6B6B</color>
-    <color name="hint">#9E9E9E</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#666666</color>
+    <color name="hint">#999999</color>
 
     <!-- BUTTON -->
     <color name="button_text">#FFFFFF</color>
