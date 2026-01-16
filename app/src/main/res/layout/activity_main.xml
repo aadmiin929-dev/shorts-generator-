@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- ===== CARD ===== -->
+        <!-- CARD -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,8 +58,7 @@
                 android:textColor="@color/button_text"
                 app:icon="@drawable/ic_generate"
                 app:iconPadding="8dp"
-                app:backgroundTint="@color/primary"
-                style="@style/Widget.Material3.Button.Filled"/>
+                app:backgroundTint="@color/primary"/>
 
             <!-- SAVE -->
             <com.google.android.material.button.MaterialButton
@@ -71,8 +70,7 @@
                 android:textColor="@color/button_text"
                 app:icon="@drawable/ic_save"
                 app:iconPadding="8dp"
-                app:backgroundTint="@color/primary"
-                style="@style/Widget.Material3.Button.Filled"/>
+                app:backgroundTint="@color/primary"/>
 
             <!-- SHARE -->
             <com.google.android.material.button.MaterialButton
@@ -84,12 +82,11 @@
                 android:textColor="@color/button_text"
                 app:icon="@drawable/ic_share"
                 app:iconPadding="8dp"
-                app:backgroundTint="@color/primary"
-                style="@style/Widget.Material3.Button.Filled"/>
+                app:backgroundTint="@color/primary"/>
 
         </LinearLayout>
 
-        <!-- ===== RESULT ===== -->
+        <!-- RESULT -->
         <TextView
             android:id="@+id/resultText"
             android:layout_width="match_parent"
