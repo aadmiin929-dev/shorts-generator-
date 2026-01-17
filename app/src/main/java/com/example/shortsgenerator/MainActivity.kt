@@ -22,11 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnShare: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // SplashScreen (Android 12+)
-        installSplashScreen()
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
 
         // 🔗 View binding
         inputText = findViewById(R.id.inputText)
