@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="APP STARTED OK"
-    android:gravity="center"
-    android:textSize="20sp"/>
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:text="Text for Shorts"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"/>
+                android:textColor="@android:color/black"/>
 
             <EditText
                 android:id="@+id/inputText"
@@ -34,8 +34,6 @@
                 android:layout_marginTop="12dp"
                 android:gravity="top"
                 android:hint="Paste your text here"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/hint"
                 android:background="@android:drawable/edit_text"
                 android:padding="12dp"/>
 
@@ -45,8 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="0 символов"
-                android:textSize="12sp"
-                android:textColor="@color/text_secondary"/>
+                android:textSize="12sp"/>
 
             <!-- GENERATE -->
             <com.google.android.material.button.MaterialButton
@@ -55,10 +52,8 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="16dp"
                 android:text="Generate SRT"
-                android:textColor="@color/button_text"
                 app:icon="@drawable/ic_generate"
-                app:iconPadding="8dp"
-                app:backgroundTint="@color/primary"/>
+                app:iconPadding="8dp"/>
 
             <!-- SAVE -->
             <com.google.android.material.button.MaterialButton
@@ -67,10 +62,8 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:text="Save SRT"
-                android:textColor="@color/button_text"
                 app:icon="@drawable/ic_save"
-                app:iconPadding="8dp"
-                app:backgroundTint="@color/primary"/>
+                app:iconPadding="8dp"/>
 
             <!-- SHARE -->
             <com.google.android.material.button.MaterialButton
@@ -79,10 +72,8 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:text="Share"
-                android:textColor="@color/button_text"
                 app:icon="@drawable/ic_share"
-                app:iconPadding="8dp"
-                app:backgroundTint="@color/primary"/>
+                app:iconPadding="8dp"/>
 
         </LinearLayout>
 
@@ -92,8 +83,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textSize="14sp"
-            android:textColor="@color/text_primary"/>
+            android:textSize="14sp"/>
 
     </LinearLayout>
-</ScrollView>
+
+</ScrollView>                
