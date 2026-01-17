@@ -10,28 +10,24 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var inputText: EditText
-    private lateinit var textCounter: TextView
-    private lateinit var resultText: TextView
-    private lateinit var btnGenerate: Button
-    private lateinit var btnSave: Button
-    private lateinit var btnShare: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+        // SplashScreen (Android 12+)
+        installSplashScreen()
 
-        // 🔗 View binding
-        inputText = findViewById(R.id.inputText)
-        textCounter = findViewById(R.id.textCounter)
-        resultText = findViewById(R.id.resultText)
-        btnGenerate = findViewById(R.id.btnSrt)
-        btnSave = findViewById(R.id.btnSave)
-        btnShare = findViewById(R.id.btnShare)
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // 🔗 View binding (ПОСЛЕ setContentView!)
+        val inputText = findViewById<EditText>(R.id.inputText)
+        val textCounter = findViewById<TextView>(R.id.textCounter)
+        val resultText = findViewById<TextView>(R.id.resultText)
+
+        val btnGenerate = findViewById<Button>(R.id.btnSrt)
+        val btnSave = findViewById<Button>(R.id.btnSave)
+        val btnShare = findViewById<Button>(R.id.btnShare)
 
         // 🔢 Счётчик символов
         inputText.addTextChangedListener(object : TextWatcher {
@@ -42,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        // 🎬 Генерация SRT
+        // 🎬 Generate SRT
         btnGenerate.setOnClickListener {
             val text = inputText.text.toString().trim()
             if (text.isEmpty()) {
@@ -52,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             resultText.text = generateSrt(text)
         }
 
-        // 💾 Сохранение
+        // 💾 Save
         btnSave.setOnClickListener {
             val text = resultText.text.toString()
             if (text.isBlank()) {
@@ -62,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             saveSrtToFile(text)
         }
 
-        // 📤 Поделиться
+        // 📤 Share
         btnShare.setOnClickListener {
             val text = resultText.text.toString()
             if (text.isBlank()) {
@@ -78,8 +74,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ===== SRT =====
-
+    // ===== SRT GENERATOR =====
     private fun generateSrt(text: String): String {
         val lines = text.split("\n").map { it.trim() }.filter { it.isNotEmpty() }
         val sb = StringBuilder()
@@ -97,18 +92,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun formatTime(ms: Int): String {
-        val totalSeconds = ms / 1000
+        val seconds = (ms / 1000) % 60
+        val minutes = (ms / 60000)
         val millis = ms % 1000
-        val seconds = totalSeconds % 60
-        val minutes = (totalSeconds / 60) % 60
-        return String.format("%02d:%02d:%02d,%03d", 0, minutes, seconds, millis)
+        return String.format("00:%02d:%02d,%03d", minutes, seconds, millis)
     }
 
     private fun saveSrtToFile(text: String) {
         try {
-            val file = File(getExternalFilesDir(null), "subtitles_${System.currentTimeMillis()}.srt")
+            val file = java.io.File(getExternalFilesDir(null), "subtitles_${System.currentTimeMillis()}.srt")
             file.writeText(text)
-            Toast.makeText(this, "Сохранено:\n${file.absolutePath}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Сохранено:\n${file.name}", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             Toast.makeText(this, "Ошибка сохранения", Toast.LENGTH_SHORT).show()
         }
