@@ -1,4 +1,5 @@
 package com.example.shortsgenerator
+
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
