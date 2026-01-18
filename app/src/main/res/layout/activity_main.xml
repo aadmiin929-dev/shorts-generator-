@@ -4,4 +4,4 @@
     android:layout_height="match_parent"
     android:text="APP STARTED OK"
     android:gravity="center"
-    android:textSize="22sp" />
+    android:textSize="22sp"/>
